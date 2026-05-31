@@ -19,7 +19,14 @@
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
 </style>
-</head>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Что делает инструмент «Улучшить резюме»?","acceptedAnswer":{"@type":"Answer","text":"Переписывает твоё резюме чётче и профессиональнее: усиливает формулировки, убирает воду и канцелярит."}},
+{"@type":"Question","name":"Заменит ли он готовое резюме?","acceptedAnswer":{"@type":"Answer","text":"Нет, он улучшает твой текст. Финальный вариант стоит проверить и подогнать под конкретную вакансию."}},
+{"@type":"Question","name":"Что вставлять в инструмент?","acceptedAnswer":{"@type":"Answer","text":"Текст своего резюме целиком или отдельные части: опыт, навыки, раздел «о себе»."}},
+{"@type":"Question","name":"Это бесплатно?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
+]}
+</script></head>
 <body>
 <div class="wrap">
   <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
@@ -38,7 +45,13 @@
     <button class="mini" onclick="reuse()">Улучшить ещё раз</button>
   </div>
 
-  <footer class="cross">
+  <section class="faq-sec">
+  <h2>Частые вопросы</h2>
+  <details><summary>Что делает «Улучшить резюме»?</summary><p>Переписывает твоё резюме чётче и профессиональнее: усиливает формулировки, убирает воду и канцелярит.</p></details>
+  <details><summary>Заменит ли он готовое резюме?</summary><p>Нет, он улучшает твой текст. Финал стоит проверить и подогнать под конкретную вакансию.</p></details>
+  <details><summary>Что вставлять в инструмент?</summary><p>Текст своего резюме целиком или отдельные части: опыт, навыки, раздел «о себе».</p></details>
+  <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+</section><footer class="cross">
     <div class="cross-title">Другие инструменты</div>
     <div class="cross-links">
       <a href="/gumanajzer">Гуманайзер текста</a>
