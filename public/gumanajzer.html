@@ -20,7 +20,14 @@
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
 .hint{font-size:13px;color:var(--text3);margin-top:8px}
 </style>
-</head>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Что делает гуманайзер текста?","acceptedAnswer":{"@type":"Answer","text":"Гуманайзер переписывает текст так, чтобы он звучал живо и естественно, как написанный человеком: меняет структуру предложений и убирает шаблонные обороты и канцелярит, характерные для нейросетей."}},
+{"@type":"Question","name":"Поможет ли гуманайзер пройти проверку на ИИ?","acceptedAnswer":{"@type":"Answer","text":"Он делает текст более естественным и человечным, но стопроцентной гарантии обхода детекторов не даёт ни один сервис. Используй его как помощь, а итог проверяй и дорабатывай сам."}},
+{"@type":"Question","name":"Чем академический режим отличается от обычного?","acceptedAnswer":{"@type":"Answer","text":"Обычный режим делает текст простым и разговорным. Академический сохраняет научный стиль и терминологию, но убирает штампы — подходит для рефератов, курсовых и научных работ."}},
+{"@type":"Question","name":"Гуманайзер бесплатный?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
+]}
+</script></head>
 <body>
 <div class="wrap">
   <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
@@ -55,7 +62,24 @@
     <button class="mini" onclick="reuse()">Прогнать ещё раз</button>
   </div>
 
-  <footer class="cross">
+  <section class="faq-sec">
+  <h2>Частые вопросы</h2>
+  <details><summary>Что делает гуманайзер текста?</summary><p>Переписывает текст так, чтобы он звучал живо и естественно: меняет структуру предложений и убирает шаблонные обороты и канцелярит, характерные для нейросетей.</p></details>
+  <details><summary>Поможет ли пройти проверку на ИИ?</summary><p>Делает текст естественнее и человечнее, но стопроцентной гарантии обхода детекторов не даёт ни один сервис. Используй как помощь, а итог проверяй и дорабатывай сам.</p></details>
+  <details><summary>Чем академический режим отличается от обычного?</summary><p>Обычный режим — простой и разговорный. Академический сохраняет научный стиль и термины, но убирает штампы — для рефератов, курсовых и научных работ.</p></details>
+  <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+</section>
+<style>
+.faq-sec{margin-top:48px}
+.faq-sec h2{font-family:'Syne',sans-serif;font-size:22px;margin-bottom:14px}
+.faq-sec details{border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;background:rgba(255,255,255,.02)}
+.faq-sec summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:"+";color:var(--accent);font-size:20px;font-weight:400}
+.faq-sec details[open] summary::after{content:"−"}
+.faq-sec details[open] summary{margin-bottom:8px}
+.faq-sec p{color:var(--text2);line-height:1.7;margin:0}
+</style><footer class="cross">
     <div class="cross-title">Другие инструменты</div>
     <div class="cross-links">
       <a href="/restyle">Рерайт под стиль</a>
