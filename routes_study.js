@@ -1,8 +1,10 @@
 const path = require('path');
 const express = require('express');
 
+const MODEL = 'llama-3.3-70b-versatile';
+
 module.exports = function (app, callGroqChat) {
-  // Чистые ссылки: /chat откроет chat.html, /vopros → vopros.html и т.д.
+  // Чистые ссылки: /chat → chat.html и т.д.
   app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
   // 1. Вопросы по тексту
@@ -47,7 +49,7 @@ module.exports = function (app, callGroqChat) {
     } catch (e) { console.error('generate error', e); res.status(500).json({ error: 'Ошибка сервера, попробуйте ещё раз' }); }
   });
 
-  // 3. Свободный чат
+  // 3. Свободный чат — ПОТОКОВЫЙ ответ (печатается вживую)
   app.post('/api/chat', async (req, res) => {
     try {
       const raw = (req.body && req.body.messages) || [];
@@ -60,8 +62,46 @@ module.exports = function (app, callGroqChat) {
         { role: 'system', content: 'Ты — дружелюбный и умный ИИ-ассистент, общаешься на русском языке. Помогаешь с любыми вопросами: объяснения, учёба, идеи, тексты, советы. Отвечай ясно, по делу и без воды.' },
         ...history
       ];
-      const answer = await callGroqChat(messages, 0.7, 2000);
-      res.json({ result: String(answer || '').trim() });
-    } catch (e) { console.error('chat error', e); res.status(500).json({ error: 'Ошибка сервера, попробуйте ещё раз' }); }
+
+      const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + process.env.GROQ_API_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: MODEL, messages, temperature: 0.7, max_tokens: 2000, stream: true })
+      });
+
+      if (groqRes.status === 429) return res.status(429).json({ error: 'Сейчас слишком много запросов к ИИ. Подожди 10–15 секунд и попробуй снова 🙏' });
+      if (!groqRes.ok || !groqRes.body) return res.status(500).json({ error: 'Ошибка сервера, попробуйте ещё раз' });
+
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('X-Accel-Buffering', 'no');
+
+      const reader = groqRes.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          const s = line.trim();
+          if (!s.startsWith('data:')) continue;
+          const payload = s.slice(5).trim();
+          if (payload === '[DONE]') continue;
+          try {
+            const json = JSON.parse(payload);
+            const delta = json.choices && json.choices[0] && json.choices[0].delta && json.choices[0].delta.content;
+            if (delta) res.write(delta);
+          } catch (_) {}
+        }
+      }
+      res.end();
+    } catch (e) {
+      console.error('chat error', e);
+      if (!res.headersSent) res.status(500).json({ error: 'Ошибка сервера, попробуйте ещё раз' });
+      else res.end();
+    }
   });
 };
