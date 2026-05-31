@@ -19,7 +19,14 @@
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
 </style>
-</head>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Что умеет генератор текста?","acceptedAnswer":{"@type":"Answer","text":"Создаёт готовые черновики рефератов, эссе, докладов и конспектов по заданной теме за пару секунд."}},
+{"@type":"Question","name":"Можно ли сдавать сгенерированный текст как есть?","acceptedAnswer":{"@type":"Answer","text":"Лучше использовать его как черновик и основу: проверяй факты, добавляй свои мысли и дорабатывай. Чистый текст от ИИ преподаватели и системы антиплагиата могут распознать."}},
+{"@type":"Question","name":"Какие форматы и объём доступны?","acceptedAnswer":{"@type":"Answer","text":"Реферат, эссе, доклад и конспект, на выбор короткий, средний или длинный объём."}},
+{"@type":"Question","name":"Генератор бесплатный?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
+]}
+</script></head>
 <body>
 <div class="wrap">
   <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
@@ -60,7 +67,13 @@
     <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
   </div>
 
-  <footer class="cross">
+  <section class="faq-sec">
+  <h2>Частые вопросы</h2>
+  <details><summary>Что умеет генератор текста?</summary><p>Создаёт готовые черновики рефератов, эссе, докладов и конспектов по заданной теме за пару секунд.</p></details>
+  <details><summary>Можно ли сдавать текст как есть?</summary><p>Лучше использовать как черновик и основу: проверяй факты, добавляй свои мысли и дорабатывай. Чистый текст от ИИ могут распознать преподаватели и антиплагиат.</p></details>
+  <details><summary>Какие форматы и объём доступны?</summary><p>Реферат, эссе, доклад и конспект, на выбор короткий, средний или длинный объём.</p></details>
+  <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+</section><footer class="cross">
     <div class="cross-title">Другие инструменты</div>
     <div class="cross-links">
       <a href="/gumanajzer">Гуманайзер текста</a>
