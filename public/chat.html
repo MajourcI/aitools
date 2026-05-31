@@ -1,24 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Чат с ИИ · Textify AI</title>
-<meta name="description" content="Бесплатный чат с ИИ на русском: задавай любые вопросы, помощь с учёбой и текстами. Без регистрации.">
+<meta name="description" content="Бесплатный чат с нейросетью на русском: вопросы, помощь с учёбой, текстами и идеями. Без регистрации.">
 <link rel="canonical" href="https://majourci.online/chat">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Чат с ИИ · Textify AI">
-<meta property="og:description" content="Задавай любые вопросы ИИ на русском. Бесплатно, без регистрации.">
+<meta property="og:description" content="Бесплатный чат с нейросетью на русском. Без регистрации.">
 <meta property="og:url" content="https://majourci.online/chat">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/study.css">
 <style>
+.chat-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+#chat{display:flex;flex-direction:column;gap:14px;min-height:48vh;margin-bottom:16px}
+.bubble{max-width:85%;padding:14px 18px;border-radius:18px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word}
+.bubble.user{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-right-radius:6px}
+.bubble.ai{align-self:flex-start;background:var(--card);border:1px solid var(--card-border);color:var(--text);border-bottom-left-radius:6px}
+.empty{color:var(--text3);text-align:center;padding:40px 0}
+.chat-input{display:flex;gap:10px;align-items:flex-end;position:sticky;bottom:16px}
+#input{flex:1;resize:none;height:52px;max-height:200px;padding:15px 16px;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:15px}
+#input:focus{outline:none;border-color:var(--accent)}
+#send{width:52px;height:52px;flex:none;border:none;border-radius:var(--radius-sm);background:var(--accent);color:#fff;font-size:20px;cursor:pointer;transition:.2s}
+#send:hover{background:var(--accent2)}
+#send:disabled{opacity:.5;cursor:default}
+.btn-clear{background:none;border:1px solid var(--card-border);color:var(--text2);padding:8px 14px;border-radius:99px;cursor:pointer;font-size:13px;white-space:nowrap}
+.btn-clear:hover{color:var(--text);border-color:var(--accent)}
+.bubble.blink::after{content:"▍";animation:bl 1s steps(2) infinite;color:var(--accent)}
+@keyframes bl{50%{opacity:0}}
 .cross{margin-top:50px;padding-top:26px;border-top:1px solid var(--card-border)}
 .cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
 .cross-links{display:flex;flex-wrap:wrap;gap:10px}
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
-.chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -27,31 +45,35 @@
 {"@type":"Question","name":"Чем чат отличается от других инструментов?","acceptedAnswer":{"@type":"Answer","text":"Здесь свободное общение на любую тему, а не одна конкретная задача, как у остальных инструментов."}},
 {"@type":"Question","name":"Это бесплатно?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
 ]}
-</script></head>
+</script>
+</head>
 <body>
 <div class="wrap">
   <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
   <div class="chat-head">
     <div>
       <h1>Чат с ИИ</h1>
-      <p class="sub" style="margin-bottom:0">Задавай любые вопросы — помощь с учёбой, текстами и чем угодно.</p>
+      <p class="sub">Задавай любые вопросы — помощь с учёбой, текстами и чем угодно.</p>
     </div>
-    <button class="mini" onclick="clearChat()">Очистить</button>
+    <button class="btn-clear" onclick="clearChat()">Очистить</button>
   </div>
 
-  <div class="chat" id="chat"></div>
-  <div class="inputbar">
-    <textarea id="input" placeholder="Напиши сообщение..." rows="1"></textarea>
-    <button class="send" id="send" onclick="send()" title="Отправить">↑</button>
+  <div id="chat"></div>
+
+  <div class="chat-input">
+    <textarea id="input" placeholder="Напиши сообщение…"></textarea>
+    <button id="send" onclick="send()">↑</button>
   </div>
 
   <section class="faq-sec">
-  <h2>Частые вопросы</h2>
-  <details><summary>Что такое «Чат с ИИ»?</summary><p>Свободный чат с нейросетью: задавай вопросы, проси помочь с текстом, учёбой или идеями.</p></details>
-  <details><summary>Помнит ли он предыдущие сообщения?</summary><p>Да, в рамках текущего диалога он держит контекст и помнит, о чём вы говорили.</p></details>
-  <details><summary>Чем чат отличается от других инструментов?</summary><p>Здесь свободное общение на любую тему, а не одна конкретная задача.</p></details>
-  <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
-</section><footer class="cross">
+    <h2>Частые вопросы</h2>
+    <details><summary>Что такое «Чат с ИИ»?</summary><p>Свободный чат с нейросетью: задавай вопросы, проси помочь с текстом, учёбой или идеями.</p></details>
+    <details><summary>Помнит ли он предыдущие сообщения?</summary><p>Да, в рамках текущего диалога он держит контекст и помнит, о чём вы говорили.</p></details>
+    <details><summary>Чем чат отличается от других инструментов?</summary><p>Здесь свободное общение на любую тему, а не одна конкретная задача.</p></details>
+    <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+  </section>
+
+  <footer class="cross">
     <div class="cross-title">Другие инструменты</div>
     <div class="cross-links">
       <a href="/gumanajzer">Гуманайзер текста</a>
@@ -64,32 +86,42 @@
     </div>
   </footer>
 </div>
+
 <script>
 let messages=JSON.parse(localStorage.getItem('tx_chat')||'[]');
+const chatEl=document.getElementById('chat');
 function save(){messages=messages.slice(-40);localStorage.setItem('tx_chat',JSON.stringify(messages));}
 function render(){
-  const c=document.getElementById('chat');c.innerHTML='';
-  if(!messages.length){const e=document.createElement('div');e.className='empty';e.textContent='Задай любой вопрос — ИИ ответит 💬';c.appendChild(e);return;}
-  messages.forEach(m=>{const b=document.createElement('div');b.className='bubble '+(m.role==='user'?'user':'ai');b.textContent=m.content;c.appendChild(b);});
-  c.scrollTop=c.scrollHeight;
+  chatEl.innerHTML='';
+  if(!messages.length){const e=document.createElement('div');e.className='empty';e.textContent='Задай любой вопрос — ИИ ответит 💬';chatEl.appendChild(e);return;}
+  messages.forEach(m=>{const b=document.createElement('div');b.className='bubble '+(m.role==='user'?'user':'ai');b.textContent=m.content;chatEl.appendChild(b);});
+  chatEl.scrollTop=chatEl.scrollHeight;
 }
 async function send(){
   const inp=document.getElementById('input');const text=inp.value.trim();if(!text)return;
   const btn=document.getElementById('send');
   messages.push({role:'user',content:text});inp.value='';inp.style.height='52px';save();render();
   btn.disabled=true;
-  const c=document.getElementById('chat');
-  const t=document.createElement('div');t.className='bubble ai';t.id='typing';t.innerHTML='<span class="spin"></span>';c.appendChild(t);c.scrollTop=c.scrollHeight;
+  const bub=document.createElement('div');bub.className='bubble ai blink';bub.textContent='';chatEl.appendChild(bub);chatEl.scrollTop=chatEl.scrollHeight;
   try{
     const payload=messages.slice(-20).map(m=>({role:m.role,content:String(m.content).slice(0,4000)}));
     const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:payload})});
-    const d=await r.json();
-    document.getElementById('typing')&&document.getElementById('typing').remove();
-    if(!r.ok)throw new Error(d.error||'Ошибка');
-    messages.push({role:'assistant',content:d.result||'...'});save();render();
+    if(!r.ok){let msg='Ошибка';try{const d=await r.json();msg=d.error||msg;}catch(_){}throw new Error(msg);}
+    const reader=r.body.getReader();const dec=new TextDecoder();let acc='';
+    while(true){
+      const {done,value}=await reader.read();
+      if(done)break;
+      acc+=dec.decode(value,{stream:true});
+      bub.textContent=acc;
+      chatEl.scrollTop=chatEl.scrollHeight;
+    }
+    bub.classList.remove('blink');
+    if(!acc.trim()){acc='Пустой ответ, попробуй ещё раз.';bub.textContent=acc;}
+    messages.push({role:'assistant',content:acc});save();
   }catch(e){
-    document.getElementById('typing')&&document.getElementById('typing').remove();
-    messages.push({role:'assistant',content:'⚠️ '+e.message});save();render();
+    bub.classList.remove('blink');
+    bub.textContent='⚠️ '+e.message;
+    messages.push({role:'assistant',content:'⚠️ '+e.message});save();
   }
   btn.disabled=false;inp.focus();
 }
