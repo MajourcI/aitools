@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Распознать текст с фото · Textify AI</title>
+<meta name="description" content="Бесплатно извлеки текст с фото или скриншота. Загрузи изображение — ИИ распознает и аккуратно перепишет текст. Без регистрации.">
+<link rel="canonical" href="https://majourci.online/foto">
+<meta property="og:title" content="Распознать текст с фото · Textify AI">
+<meta property="og:description" content="Загрузи фото — ИИ извлечёт текст. Бесплатно, без регистрации.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://majourci.online/foto">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/study.css">
+<style>
+:root{--bg:#080c14;--card:#111827;--card-border:rgba(255,255,255,.07);--accent:#4f8ef7;--accent2:#7b5cf5;--accent3:#00d4a8;--text:#f0f4ff;--text2:#8b9dc3;--text3:#4a5a7a;--radius:16px;--radius-sm:10px}
+.ocr-wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+.ocr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px}
+.ocr-top .brand{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--text)}
+.ocr-top a{color:var(--text2);font-size:14px}
+.ocr-wrap h1{font-family:'Syne',sans-serif;font-size:30px;margin:0 0 8px}
+.ocr-sub{color:var(--text2);margin:0 0 26px;line-height:1.6}
+.drop{border:2px dashed var(--card-border);border-radius:var(--radius);background:var(--card);padding:34px 20px;text-align:center;cursor:pointer;transition:.2s}
+.drop:hover,.drop.over{border-color:var(--accent);background:#161f31}
+.drop .ic{font-size:34px}
+.drop p{margin:10px 0 0;color:var(--text2)}
+.drop b{color:var(--text)}
+#preview{display:none;margin-top:16px;border-radius:var(--radius-sm);max-width:100%;max-height:340px;border:1px solid var(--card-border)}
+.hint-in{width:100%;margin-top:14px;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-sm);color:var(--text);padding:12px 14px;font-family:inherit;font-size:15px;box-sizing:border-box}
+.tx-btn{margin-top:16px;width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:0;border-radius:var(--radius-sm);padding:15px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:.2s}
+.tx-btn:hover{filter:brightness(1.08)}
+.tx-btn:disabled{opacity:.6;cursor:default}
+.tx-err{color:#ff6b6b;margin-top:12px;min-height:18px}
+.tx-result{display:none;white-space:pre-wrap;line-height:1.7;color:var(--text);background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:18px;margin-top:18px}
+.tx-result.show{display:block}
+.tx-actions{display:none;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tx-actions button{background:none;border:1px solid var(--card-border);color:var(--text2);font-size:13px;padding:8px 15px;border-radius:99px;cursor:pointer;transition:.2s;font-family:inherit}
+.tx-actions button:hover{color:var(--text);border-color:var(--accent)}
+.faq-sec{margin-top:48px}
+.faq-sec h2{font-family:'Syne',sans-serif;font-size:22px;margin-bottom:14px}
+.faq-sec details{border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;background:rgba(255,255,255,.02)}
+.faq-sec summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:"+";color:var(--accent);font-size:20px}
+.faq-sec details[open] summary::after{content:"−"}
+.faq-sec p{color:var(--text2);line-height:1.7;margin:8px 0 0}
+.cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
+.cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
+.cross-links{display:flex;flex-wrap:wrap;gap:10px}
+.cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
+.cross-links a:hover{color:var(--text);border-color:var(--accent)}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Как извлечь текст с фотографии?","acceptedAnswer":{"@type":"Answer","text":"Загрузи фото или скриншот, нажми «Извлечь текст» — ИИ распознает и аккуратно перепишет весь текст с изображения."}},
+{"@type":"Question","name":"Какие языки распознаются?","acceptedAnswer":{"@type":"Answer","text":"В первую очередь русский, а также английский и другие языки. Текст возвращается на языке оригинала, без перевода."}},
+{"@type":"Question","name":"Это бесплатно?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
+]}
+</script>
+</head>
+<body>
+<div class="ocr-wrap">
+  <div class="ocr-top"><span class="brand">Textify AI</span><a href="/">← На главную</a></div>
+  <h1>Распознать текст с фото</h1>
+  <p class="ocr-sub">Загрузи фото или скриншот — ИИ извлечёт весь текст и аккуратно перепишет его. Бесплатно · Без регистрации</p>
 
+  <div class="drop" id="drop">
+    <div class="ic">📷</div>
+    <p><b>Нажми или перетащи фото</b><br>JPG, PNG · до 8 МБ</p>
+  </div>
+  <input type="file" id="file" accept="image/*" hidden>
+  <img id="preview" alt="превью">
+  <input class="hint-in" id="hint" placeholder="Подсказка (необязательно): например «рукописный конспект по химии»">
+
+  <button class="tx-btn" id="go">Извлечь текст</button>
+  <div class="tx-err" id="err"></div>
+
+  <div class="tx-result" id="result"></div>
+  <div class="tx-actions" id="actions">
+    <button onclick="copyRes()">Копировать</button>
+    <button onclick="downloadTxt()">Скачать .txt</button>
+  </div>
+
+  <div class="faq-sec">
+    <h2>Частые вопросы</h2>
+    <details><summary>Как извлечь текст с фотографии?</summary><p>Загрузи фото или скриншот, нажми «Извлечь текст» — ИИ распознает и перепишет весь текст с изображения.</p></details>
+    <details><summary>Какие языки распознаются?</summary><p>В первую очередь русский, а также английский и другие. Текст возвращается на языке оригинала, без перевода.</p></details>
+    <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+  </div>
+
+  <div class="cross">
+    <div class="cross-title">Другие инструменты</div>
+    <div class="cross-links">
+      <a href="/gumanajzer">Гуманайзер текста</a>
+      <a href="/restyle">Рерайт под стиль</a>
+      <a href="/sokrat">Сократить текст</a>
+      <a href="/rezyume">Улучшить резюме</a>
+      <a href="/idei">Идеи для контента</a>
+      <a href="/vopros">Вопросы по тексту</a>
+      <a href="/generator">Генератор текста</a>
+      <a href="/chat">Чат с ИИ</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const drop=document.getElementById('drop'),fileEl=document.getElementById('file'),preview=document.getElementById('preview');
+const hintEl=document.getElementById('hint'),btn=document.getElementById('go'),err=document.getElementById('err');
+const res=document.getElementById('result'),act=document.getElementById('actions');
+let currentFile=null;
+
+drop.addEventListener('click',()=>fileEl.click());
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over');});
+drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);});
+fileEl.addEventListener('change',()=>{if(fileEl.files[0])setFile(fileEl.files[0]);});
+
+function setFile(f){
+  if(!f.type.startsWith('image/')){err.textContent='Это не изображение';return;}
+  currentFile=f;err.textContent='';
+  preview.src=URL.createObjectURL(f);preview.style.display='block';
+}
+
+function fileToDataUrl(file,maxDim,quality){
+  return new Promise((resolve,reject)=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{
+      URL.revokeObjectURL(url);
+      let w=img.width,h=img.height;
+      if(Math.max(w,h)>maxDim){const k=maxDim/Math.max(w,h);w=Math.round(w*k);h=Math.round(h*k);}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.drawImage(img,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg',quality));
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Не удалось прочитать изображение'));};
+    img.src=url;
+  });
+}
+
+async function go(){
+  if(!currentFile){err.textContent='Сначала выбери фото';return;}
+  err.textContent='';btn.disabled=true;btn.textContent='Распознаю...';res.classList.remove('show');act.style.display='none';
+  try{
+    const dataUrl=await fileToDataUrl(currentFile,1800,0.85);
+    const r=await fetch('/api/ocr',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:dataUrl,hint:hintEl.value.trim()})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Ошибка');
+    if(d.empty){res.textContent='На фото не нашлось текста 🤔';res.classList.add('show');}
+    else{res.textContent=d.result;res.classList.add('show');act.style.display='flex';}
+  }catch(e){err.textContent=e.message;}
+  btn.disabled=false;btn.textContent='Извлечь текст';
+}
+btn.addEventListener('click',go);
+
+function copyRes(){navigator.clipboard.writeText(res.textContent);}
+function downloadTxt(){const b=new Blob([res.textContent],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tekst-s-foto.txt';a.click();}
+</script>
+</body>
+</html>
