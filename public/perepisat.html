@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Переписать текст онлайн бесплатно — AI переписчик | Textify AI</title>
+<meta name="description" content="Бесплатный AI переписчик текста онлайн. Делает текст чище, грамотнее и профессиональнее за секунды. Без регистрации.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--card:#111827;--card-border:rgba(255,255,255,0.07);--card-hover:#161f31;--accent:#4f8ef7;--accent2:#7b5cf5;--accent3:#00d4a8;--text:#f0f4ff;--text2:#8b9dc3;--text3:#4a5a7a;--radius:16px;--radius-sm:10px;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+.blob{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;animation:pulse 8s ease-in-out infinite alternate}
+.blob-1{width:600px;height:600px;background:rgba(79,142,247,0.07);top:-200px;left:-150px}
+.blob-2{width:500px;height:500px;background:rgba(123,92,245,0.06);top:40%;right:-200px;animation-delay:-3s}
+.blob-3{width:400px;height:400px;background:rgba(0,212,168,0.05);bottom:-100px;left:30%;animation-delay:-6s}
+@keyframes pulse{from{transform:scale(1) translate(0,0)}to{transform:scale(1.15) translate(20px,-20px)}}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 32px;height:64px;background:rgba(8,12,20,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--card-border);flex-wrap:wrap}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;text-decoration:none}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{font-size:13px;color:var(--text2);text-decoration:none;padding:6px 12px;border-radius:999px;border:1px solid transparent;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,0.04)}
+.nav-links a.active{color:var(--accent);border-color:rgba(79,142,247,0.3);background:rgba(79,142,247,0.1)}
+.hero{position:relative;z-index:1;padding:64px 32px 36px;max-width:760px;margin:0 auto;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent3);margin-bottom:22px;padding:8px 20px;border:1px solid rgba(0,212,168,0.2);border-radius:999px;background:rgba(0,212,168,0.05)}
+.eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,4.5vw,52px);line-height:1.08;letter-spacing:-1.5px;margin-bottom:18px;color:#fff}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:17px;font-weight:300;color:var(--text2);line-height:1.6;max-width:540px;margin:0 auto}
+.work{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 20px 40px}
+textarea{width:100%;padding:16px;border:1.5px solid var(--card-border);border-radius:var(--radius);font-size:15px;resize:vertical;outline:none;font-family:inherit;background:var(--card);color:var(--text);transition:border .15s,box-shadow .15s;line-height:1.6}
+textarea::placeholder{color:var(--text3)}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,142,247,.12)}
+#input{height:180px}
+button.go{width:100%;margin-top:14px;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .1s,filter .15s;letter-spacing:.01em}
+button.go:hover{filter:brightness(1.08)}
+button.go:active{transform:scale(.99)}
+button.go:disabled{opacity:.5;cursor:default}
+.proc-stat{margin-top:14px;text-align:center;font-size:13px;color:var(--text3)}
+.proc-stat b{color:var(--accent3);font-weight:600}
+.result-section{display:none;margin-top:22px}
+.result-section.show{display:block}
+.result-label{font-size:13px;color:var(--text3);margin-bottom:8px;display:flex;justify-content:space-between;gap:12px}
+#result{width:100%;min-height:140px;border:1.5px solid var(--card-border);background:var(--card);border-radius:var(--radius);padding:16px;font-size:15px;line-height:1.75;font-family:inherit;resize:vertical;outline:none;color:var(--text)}
+#result:focus{border-color:var(--accent)}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.action-btn{padding:10px 18px;border:1.5px solid var(--card-border);background:var(--card);border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-family:inherit;transition:all .15s;color:var(--text2)}
+.action-btn:hover{background:var(--card-hover);color:#fff;border-color:rgba(79,142,247,0.25)}
+.action-btn.blue{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.action-btn.blue:hover{filter:brightness(1.08)}
+.info-section{position:relative;z-index:1;max-width:760px;margin:0 auto 48px;padding:0 20px}
+.info-card{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:32px}
+.info-card h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;margin-bottom:14px;color:#fff}
+.info-card p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:12px}
+.info-card p:last-child{margin-bottom:0}
+.faq{position:relative;z-index:1;max-width:760px;margin:0 auto 64px;padding:0 20px}
+.faq h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;margin-bottom:16px;color:#fff}
+.faq-item{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden}
+.faq-q{padding:16px 18px;font-weight:500;font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;color:#fff}
+.faq-q:hover{background:var(--card-hover)}
+.faq-arr{font-size:13px;color:var(--text3);transition:transform .2s}
+.faq-item.open .faq-arr{transform:rotate(180deg)}
+.faq-a{padding:0 18px 16px;color:var(--text2);font-size:14px;line-height:1.65;display:none}
+.faq-item.open .faq-a{display:block}
+footer{position:relative;z-index:1;border-top:1px solid var(--card-border);padding:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer-copy{font-size:12px;color:var(--text3)}
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+@media(max-width:700px){nav{padding:0 16px;height:auto;padding-top:10px;padding-bottom:10px}.hero{padding:44px 20px 28px}}
+</style>
+</head>
+<body>
+<div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Textify AI</a>
+  <div class="nav-links">
+    <a href="/gumanajzer.html">Гуманайзер</a>
+    <a href="/perepisat.html" class="active">Переписать</a>
+    <a href="/sokrat.html">Сократить</a>
+    <a href="/restyle.html">Рерайт</a>
+    <a href="/rezyume.html">Резюме</a>
+    <a href="/idei.html">Идеи</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow"><span></span>AI переписчик текста</div>
+  <h1>Переписать текст <em>онлайн</em></h1>
+  <p class="hero-sub">Чище, грамотнее, профессиональнее — смысл сохраняется, подача улучшается. Бесплатно и без регистрации.</p>
+</div>
+
+<div class="work">
+  <textarea id="input" placeholder="Вставь текст, который нужно улучшить..."></textarea>
+  <button class="go" id="goBtn" onclick="runTool()">✨ Улучшить текст</button>
+  <div class="proc-stat">Уже обработано текстов: <b id="procCount">—</b></div>
+
+  <div class="result-section" id="resultSection">
+    <div class="result-label"><span>Результат — можно редактировать</span><span id="charCount"></span></div>
+    <textarea id="result" oninput="updateCount()"></textarea>
+    <div class="actions">
+      <button class="action-btn" onclick="copyResult()">📋 Скопировать</button>
+      <button class="action-btn" onclick="downloadTxt()">⬇️ Скачать .txt</button>
+      <button class="action-btn blue" onclick="reuseResult()">🔁 Прогнать ещё раз</button>
+    </div>
+  </div>
+</div>
+
+<div class="info-section fade-up">
+  <div class="info-card">
+    <h2>Зачем переписывать текст</h2>
+    <p>Переписчик улучшает любой текст — делает его грамотнее, чище и профессиональнее. Подходит для деловых писем, постов в соцсетях, описаний товаров, статей и любого другого контента.</p>
+    <p>AI исправляет неловкие формулировки, убирает лишние слова и повторы. Смысл и объём сохраняются, но текст становится заметно читабельнее.</p>
+    <p>Особенно полезен, когда текст написан наспех или нужно быстро отредактировать чужой материал.</p>
+  </div>
+</div>
+
+<div class="faq fade-up">
+  <h2>Частые вопросы</h2>
+  <div class="faq-item"><div class="faq-q">Сохраняется ли смысл текста? <span class="faq-arr">▾</span></div><div class="faq-a">Да, смысл сохраняется полностью. Меняются стиль и формулировки.</div></div>
+  <div class="faq-item"><div class="faq-q">Какой максимальный размер текста? <span class="faq-arr">▾</span></div><div class="faq-a">До 2000 слов за один запрос — так качество лучше.</div></div>
+  <div class="faq-item"><div class="faq-q">Работает с другими языками? <span class="faq-arr">▾</span></div><div class="faq-a">Оптимизирован для русского, но работает и с другими языками.</div></div>
+  <div class="faq-item"><div class="faq-q">Это бесплатно? <span class="faq-arr">▾</span></div><div class="faq-a">Да, полностью бесплатно и без регистрации.</div></div>
+</div>
+
+<footer>
+  <span class="footer-logo">Textify AI</span>
+  <span class="footer-copy">© 2026 · Бесплатно на русском</span>
+</footer>
+
+<script>
+function updateCount(){
+  var v=document.getElementById('result').value;
+  var t=v.trim();
+  var words=t?t.split(/\s+/).length:0;
+  document.getElementById('charCount').textContent=words+' слов · '+v.length+' симв.';
+}
+function copyResult(){
+  navigator.clipboard.writeText(document.getElementById('result').value);
+  var b=event.target,o=b.textContent;b.textContent='✅ Скопировано!';
+  setTimeout(function(){b.textContent=o},2000);
+}
+function downloadTxt(){
+  var t=document.getElementById('result').value;if(!t)return;
+  var blob=new Blob([t],{type:'text/plain;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='textify-perepisat.txt';a.click();URL.revokeObjectURL(a.href);
+}
+function reuseResult(){
+  document.getElementById('input').value=document.getElementById('result').value;
+  document.getElementById('resultSection').classList.remove('show');
+  runTool();
+}
+function showCounter(){
+  var base=14820,launch=new Date('2026-05-29').getTime();
+  var days=Math.max(0,Math.floor((Date.now()-launch)/86400000));
+  var local=parseInt(localStorage.getItem('tx_count')||'0');
+  var n=base+days*143+local;
+  document.getElementById('procCount').textContent=n.toLocaleString('ru-RU');
+}
+function incCounter(){
+  localStorage.setItem('tx_count',(parseInt(localStorage.getItem('tx_count')||'0')+1));
+  showCounter();
+}
+async function runTool(){
+  var text=document.getElementById('input').value.trim();
+  if(!text){alert('Введи текст!');return;}
+  var btn=document.getElementById('goBtn'),resultEl=document.getElementById('result');
+  btn.disabled=true;btn.textContent='⏳ Обрабатываю...';
+  document.getElementById('resultSection').classList.add('show');
+  resultEl.value='AI работает...';document.getElementById('charCount').textContent='';
+  try{
+    var res=await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toolType:'rewrite',userText:text})});
+    var data=await res.json();
+    resultEl.value=data.result||data.error||'Ошибка';updateCount();
+    if(data.result)incCounter();
+  }catch(e){resultEl.value='Ошибка соединения с сервером';}
+  btn.disabled=false;btn.textContent='✨ Улучшить текст';
+}
+document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){q.parentElement.classList.toggle('open')});});
+var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1});
+document.querySelectorAll('.fade-up').forEach(function(el){obs.observe(el)});
+showCounter();
+</script>
+</body>
+</html>

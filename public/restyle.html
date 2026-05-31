@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рерайт под стиль · Textify AI</title>
+<meta name="description" content="Бесплатный рерайт текста под стиль на русском: деловой, разговорный, для соцсетей или студенческий. Один текст — разная подача. Без регистрации.">
+<link rel="canonical" href="https://majourci.online/restyle">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="Рерайт под стиль · Textify AI">
+<meta property="og:description" content="Один текст — разная подача: деловой, разговорный, для соцсетей, студенческий.">
+<meta property="og:url" content="https://majourci.online/restyle">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/study.css">
+<style>
+.cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
+.cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
+.cross-links{display:flex;flex-wrap:wrap;gap:10px}
+.cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
+.cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
+  <h1>Рерайт под стиль</h1>
+  <p class="sub">Один текст — разная подача. Выбери стиль, смысл сохранится. Бесплатно · Без регистрации</p>
+
+  <label>Текст</label>
+  <textarea id="text" placeholder="Вставь текст, который нужно переписать под стиль..."></textarea>
+
+  <div class="row">
+    <div><label>Стиль</label>
+      <div class="select" data-name="style" data-value="casual">
+        <button type="button" class="select-btn"><span>Разговорный</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="select-list">
+          <div class="select-opt" data-val="business">Деловой</div>
+          <div class="select-opt sel" data-val="casual">Разговорный</div>
+          <div class="select-opt" data-val="social">Для соцсетей</div>
+          <div class="select-opt" data-val="student">Студенческий</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn" id="go" onclick="run()">Переписать</button>
+  <div class="err" id="err"></div>
+  <div class="result" id="result"></div>
+  <div class="result-actions" id="actions" style="display:none">
+    <button class="mini" onclick="copyRes()">Копировать</button>
+    <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
+    <button class="mini" onclick="reuse()">Переписать ещё раз</button>
+  </div>
+
+  <footer class="cross">
+    <div class="cross-title">Другие инструменты</div>
+    <div class="cross-links">
+      <a href="/gumanajzer">Гуманайзер текста</a>
+      <a href="/sokrat">Сократить текст</a>
+      <a href="/rezyume">Улучшить резюме</a>
+      <a href="/idei">Идеи для контента</a>
+      <a href="/vopros">Вопросы по тексту</a>
+      <a href="/generator">Генератор текста</a>
+      <a href="/chat">Чат с ИИ</a>
+    </div>
+  </footer>
+</div>
+<script>
+document.querySelectorAll('.select').forEach(sel=>{
+  const btn=sel.querySelector('.select-btn'),label=btn.querySelector('span');
+  sel.querySelectorAll('.select-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      sel.dataset.value=opt.dataset.val;label.textContent=opt.textContent;
+      sel.querySelectorAll('.select-opt').forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');
+      sel.classList.remove('open');
+    });
+  });
+  btn.addEventListener('click',e=>{e.stopPropagation();document.querySelectorAll('.select').forEach(s=>{if(s!==sel)s.classList.remove('open')});sel.classList.toggle('open');});
+});
+document.addEventListener('click',()=>document.querySelectorAll('.select').forEach(s=>s.classList.remove('open')));
+
+async function run(){
+  const userText=document.getElementById('text').value.trim();
+  const style=document.querySelector('.select[data-name="style"]').dataset.value;
+  const err=document.getElementById('err'),res=document.getElementById('result'),btn=document.getElementById('go'),act=document.getElementById('actions');
+  err.textContent='';
+  if(!userText){err.textContent='Вставь текст';return;}
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Переписываю...';res.classList.remove('show');act.style.display='none';
+  try{
+    const r=await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toolType:'restyle',userText,options:{style}})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Ошибка');
+    res.textContent=d.result||'Пустой результат';res.classList.add('show');act.style.display='flex';
+  }catch(e){err.textContent=e.message;}
+  btn.disabled=false;btn.textContent='Переписать';
+}
+function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
+function downloadTxt(){const t=document.getElementById('result').textContent;const b=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tekst.txt';a.click();}
+function reuse(){document.getElementById('text').value=document.getElementById('result').textContent;window.scrollTo({top:0,behavior:'smooth'});}
+</script>
+</body>
+</html>

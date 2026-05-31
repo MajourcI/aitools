@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Идеи для контента · Textify AI</title>
+<meta name="description" content="Бесплатный генератор идей для контента на русском: 10 идей для постов по любой теме — Instagram, Telegram, YouTube. Без регистрации.">
+<link rel="canonical" href="https://majourci.online/idei">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="Идеи для контента · Textify AI">
+<meta property="og:description" content="10 идей для постов по любой теме за секунды. Бесплатно, без регистрации.">
+<meta property="og:url" content="https://majourci.online/idei">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/study.css">
+<style>
+.cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
+.cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
+.cross-links{display:flex;flex-wrap:wrap;gap:10px}
+.cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
+.cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
+  <h1>Идеи для контента</h1>
+  <p class="sub">10 идей для постов по любой теме — для Instagram, Telegram, YouTube и других платформ. Бесплатно · Без регистрации</p>
+
+  <label>Тема</label>
+  <input id="topic" placeholder="Например: здоровое питание для студентов">
+
+  <button class="btn" id="go" onclick="run()">Придумать идеи</button>
+  <div class="err" id="err"></div>
+  <div class="result" id="result"></div>
+  <div class="result-actions" id="actions" style="display:none">
+    <button class="mini" onclick="copyRes()">Копировать</button>
+    <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
+  </div>
+
+  <footer class="cross">
+    <div class="cross-title">Другие инструменты</div>
+    <div class="cross-links">
+      <a href="/gumanajzer">Гуманайзер текста</a>
+      <a href="/restyle">Рерайт под стиль</a>
+      <a href="/sokrat">Сократить текст</a>
+      <a href="/rezyume">Улучшить резюме</a>
+      <a href="/vopros">Вопросы по тексту</a>
+      <a href="/generator">Генератор текста</a>
+      <a href="/chat">Чат с ИИ</a>
+    </div>
+  </footer>
+</div>
+<script>
+async function run(){
+  const userText=document.getElementById('topic').value.trim();
+  const err=document.getElementById('err'),res=document.getElementById('result'),btn=document.getElementById('go'),act=document.getElementById('actions');
+  err.textContent='';
+  if(!userText){err.textContent='Введи тему';return;}
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Придумываю...';res.classList.remove('show');act.style.display='none';
+  try{
+    const r=await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toolType:'ideas',userText})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Ошибка');
+    res.textContent=d.result||'Пустой результат';res.classList.add('show');act.style.display='flex';
+  }catch(e){err.textContent=e.message;}
+  btn.disabled=false;btn.textContent='Придумать идеи';
+}
+function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
+function downloadTxt(){const t=document.getElementById('result').textContent;const b=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='idei.txt';a.click();}
+</script>
+</body>
+</html>

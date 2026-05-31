@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Чат с ИИ · Textify AI</title>
+<meta name="description" content="Бесплатный чат с ИИ на русском: задавай любые вопросы, помощь с учёбой и текстами. Без регистрации.">
+<link rel="canonical" href="https://majourci.online/chat">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="Чат с ИИ · Textify AI">
+<meta property="og:description" content="Задавай любые вопросы ИИ на русском. Бесплатно, без регистрации.">
+<meta property="og:url" content="https://majourci.online/chat">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/study.css">
+<style>
+.cross{margin-top:50px;padding-top:26px;border-top:1px solid var(--card-border)}
+.cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
+.cross-links{display:flex;flex-wrap:wrap;gap:10px}
+.cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
+.cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+.chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
+  <div class="chat-head">
+    <div>
+      <h1>Чат с ИИ</h1>
+      <p class="sub" style="margin-bottom:0">Задавай любые вопросы — помощь с учёбой, текстами и чем угодно.</p>
+    </div>
+    <button class="mini" onclick="clearChat()">Очистить</button>
+  </div>
+
+  <div class="chat" id="chat"></div>
+  <div class="inputbar">
+    <textarea id="input" placeholder="Напиши сообщение..." rows="1"></textarea>
+    <button class="send" id="send" onclick="send()" title="Отправить">↑</button>
+  </div>
+
+  <footer class="cross">
+    <div class="cross-title">Другие инструменты</div>
+    <div class="cross-links">
+      <a href="/gumanajzer">Гуманайзер текста</a>
+      <a href="/restyle">Рерайт под стиль</a>
+      <a href="/sokrat">Сократить текст</a>
+      <a href="/rezyume">Улучшить резюме</a>
+      <a href="/idei">Идеи для контента</a>
+      <a href="/vopros">Вопросы по тексту</a>
+      <a href="/generator">Генератор текста</a>
+    </div>
+  </footer>
+</div>
+<script>
+let messages=JSON.parse(localStorage.getItem('tx_chat')||'[]');
+function save(){messages=messages.slice(-40);localStorage.setItem('tx_chat',JSON.stringify(messages));}
+function render(){
+  const c=document.getElementById('chat');c.innerHTML='';
+  if(!messages.length){const e=document.createElement('div');e.className='empty';e.textContent='Задай любой вопрос — ИИ ответит 💬';c.appendChild(e);return;}
+  messages.forEach(m=>{const b=document.createElement('div');b.className='bubble '+(m.role==='user'?'user':'ai');b.textContent=m.content;c.appendChild(b);});
+  c.scrollTop=c.scrollHeight;
+}
+async function send(){
+  const inp=document.getElementById('input');const text=inp.value.trim();if(!text)return;
+  const btn=document.getElementById('send');
+  messages.push({role:'user',content:text});inp.value='';inp.style.height='52px';save();render();
+  btn.disabled=true;
+  const c=document.getElementById('chat');
+  const t=document.createElement('div');t.className='bubble ai';t.id='typing';t.innerHTML='<span class="spin"></span>';c.appendChild(t);c.scrollTop=c.scrollHeight;
+  try{
+    const payload=messages.slice(-20).map(m=>({role:m.role,content:String(m.content).slice(0,4000)}));
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:payload})});
+    const d=await r.json();
+    document.getElementById('typing')&&document.getElementById('typing').remove();
+    if(!r.ok)throw new Error(d.error||'Ошибка');
+    messages.push({role:'assistant',content:d.result||'...'});save();render();
+  }catch(e){
+    document.getElementById('typing')&&document.getElementById('typing').remove();
+    messages.push({role:'assistant',content:'⚠️ '+e.message});save();render();
+  }
+  btn.disabled=false;inp.focus();
+}
+function clearChat(){messages=[];save();render();}
+const inp=document.getElementById('input');
+inp.addEventListener('input',()=>{inp.style.height='52px';inp.style.height=Math.min(inp.scrollHeight,200)+'px';});
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+render();
+</script>
+</body>
+</html>

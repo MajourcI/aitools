@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textify AI — бесплатные AI-инструменты для текста и учёбы на русском</title>
+<meta name="description" content="8 бесплатных AI-инструментов на русском: вопросы по тексту, генератор рефератов и эссе, гуманайзер, рерайт, сокращение, резюме, чат с ИИ. Без регистрации.">
+<meta name="keywords" content="ai инструменты, гуманайзер, генератор текста, реферат, эссе, чат с ии, рерайт, сократить текст, бесплатно, русский">
+<link rel="canonical" href="https://majourci.online/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Textify AI — бесплатные AI-инструменты для текста и учёбы">
+<meta property="og:description" content="Вопросы по тексту, генератор рефератов и эссе, гуманайзер, чат с ИИ и другие инструменты. Бесплатно, без регистрации, на русском.">
+<meta property="og:url" content="https://majourci.online/">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Textify AI — бесплатные AI-инструменты на русском">
+<meta name="twitter:description" content="8 AI-инструментов для текста и учёбы. Бесплатно и без регистрации.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Textify AI","url":"https://majourci.online/","inLanguage":"ru","description":"Бесплатные AI-инструменты для текста и учёбы на русском языке"}
+</script>
+<style>
+:root{
+  --bg:#080c14;--card:#111827;--card-border:rgba(255,255,255,0.07);--card-hover:#161f31;
+  --accent:#4f8ef7;--accent2:#7b5cf5;--accent3:#00d4a8;
+  --text:#f0f4ff;--text2:#8b9dc3;--text3:#4a5a7a;--radius:16px;--radius-sm:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,*{scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--accent2));border-radius:99px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,.brand{font-family:'Syne',sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+svg{display:block}
+
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(8,12,20,.72);border-bottom:1px solid var(--card-border)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-weight:800;font-size:22px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-cta{font-size:14px;color:var(--text2);border:1px solid var(--card-border);padding:8px 16px;border-radius:99px;transition:.25s}
+.nav-cta:hover{color:var(--text);border-color:var(--accent)}
+
+.hero{position:relative;text-align:center;padding:90px 0 70px;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;animation:float 14s ease-in-out infinite}
+.blob.b1{width:420px;height:420px;background:#1e3a8a;top:-120px;left:-80px}
+.blob.b2{width:380px;height:380px;background:#5b21b6;top:-60px;right:-90px;animation-delay:-5s}
+.blob.b3{width:300px;height:300px;background:#065f54;bottom:-140px;left:40%;animation-delay:-9s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,30px) scale(1.08)}}
+.hero .wrap{position:relative;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);background:rgba(255,255,255,.04);border:1px solid var(--card-border);padding:7px 15px;border-radius:99px;margin-bottom:26px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent3);box-shadow:0 0 0 0 rgba(0,212,168,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,212,168,.6)}70%{box-shadow:0 0 0 9px rgba(0,212,168,0)}100%{box-shadow:0 0 0 0 rgba(0,212,168,0)}}
+.hero h1{font-size:clamp(34px,6vw,60px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
+.hero h1 .grad{background:linear-gradient(100deg,var(--accent),var(--accent2) 55%,var(--accent3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:clamp(16px,2.4vw,20px);color:var(--text2);max-width:620px;margin:0 auto 34px}
+.cta{display:inline-block;font-weight:700;font-size:16px;color:#fff;background:linear-gradient(100deg,var(--accent),var(--accent2));padding:15px 34px;border-radius:99px;transition:.28s;box-shadow:0 10px 30px -8px rgba(79,142,247,.55)}
+.cta:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(123,92,245,.6)}
+.stats{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:46px}
+.stat{background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 22px;min-width:120px}
+.stat b{display:block;font-family:'Syne';font-size:24px;font-weight:700;color:var(--text)}
+.stat span{font-size:13px;color:var(--text3)}
+
+.section{padding:60px 0}
+.section h2{font-size:30px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+.section .sub{color:var(--text2);margin-bottom:34px}
+.group{margin-bottom:44px}
+.group-title{display:flex;align-items:center;gap:12px;font-family:'Syne';font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:18px}
+.group-title::after{content:"";flex:1;height:1px;background:var(--card-border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+
+.card{position:relative;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:24px;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;opacity:0;transform:translateY(22px)}
+.card.in{opacity:1;transform:none}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(140px 140px at var(--mx,50%) -10%,rgba(79,142,247,.16),transparent 70%);opacity:0;transition:.3s}
+.card:hover{transform:translateY(-5px);border-color:rgba(79,142,247,.4);box-shadow:0 20px 45px -20px rgba(79,142,247,.5)}
+.card:hover::before{opacity:1}
+.ico{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(135deg,rgba(79,142,247,.18),rgba(123,92,245,.18));color:var(--accent);margin-bottom:16px}
+.ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:19px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.chip{font-family:'DM Sans';font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent3);background:rgba(0,212,168,.12);border:1px solid rgba(0,212,168,.3);padding:2px 8px;border-radius:99px}
+.card p{color:var(--text2);font-size:14.5px;margin-bottom:18px;min-height:42px}
+.open{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--accent)}
+.open svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:.25s}
+.card:hover .open svg{transform:translateX(4px)}
+
+.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.feat{padding:22px;border:1px solid var(--card-border);border-radius:var(--radius);background:rgba(255,255,255,.02)}
+.feat .ico{margin-bottom:12px}
+.feat b{display:block;font-family:'Syne';font-size:16px;margin-bottom:4px}
+.feat span{color:var(--text2);font-size:14px}
+
+.prose{max-width:760px}
+.prose h2{font-size:24px;margin:32px 0 10px}
+.prose p{color:var(--text2);margin-bottom:12px}
+
+footer{border-top:1px solid var(--card-border);padding:46px 0;margin-top:40px;color:var(--text3);font-size:14px}
+footer .cols{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;margin-bottom:30px}
+footer a{color:var(--text2);display:block;padding:4px 0;transition:.2s}
+footer a:hover{color:var(--accent)}
+footer .fb{font-family:'Syne';font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.08em;font-size:13px;margin-bottom:10px}
+@media(max-width:600px){.hero{padding:60px 0 50px}.section{padding:44px 0}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap"><a class="brand" href="/">Textify AI</a><a class="nav-cta" href="#tools">Инструменты ↓</a></div></nav>
+
+<header class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="wrap">
+    <div class="badge"><span class="dot"></span> Работает прямо сейчас</div>
+    <h1>AI-инструменты для <span class="grad">текста и учёбы</span></h1>
+    <p class="lead">Вопросы по тексту, генератор рефератов и эссе, гуманайзер, чат с ИИ и другие инструменты на русском — бесплатно и без регистрации.</p>
+    <a class="cta" href="#tools">Выбрать инструмент</a>
+    <div class="stats">
+      <div class="stat"><b>8</b><span>инструментов</span></div>
+      <div class="stat"><b>0 ₽</b><span>стоимость</span></div>
+      <div class="stat"><b id="cnt">—</b><span>текстов обработано</span></div>
+      <div class="stat"><b>без</b><span>регистрации</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="section" id="tools">
+  <div class="wrap">
+    <h2>Инструменты</h2>
+    <p class="sub">Выбери, что нужно — каждый инструмент работает за несколько секунд.</p>
+
+    <div class="group">
+      <div class="group-title">Для учёбы</div>
+      <div class="grid">
+        <a class="card" href="/vopros"><div class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9.6 12.6a1.8 1.8 0 1 1 2.7 1.6c-.5.3-.9.7-.9 1.3"/><path d="M11.4 18h.01"/></svg></div><h3>Вопросы по тексту</h3><p>Вставь текст и спроси что угодно — ИИ ответит строго по нему.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card" href="/generator"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div><h3>Генератор текста</h3><p>Реферат, эссе, доклад или конспект по любой теме за минуту.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card" href="/gumanajzer"><div class="ico"><svg viewBox="0 0 24 24"><path d="M13 3l2.2 5.8L21 11l-5.8 2.2L13 19l-2.2-5.8L5 11l5.8-2.2L13 3z"/><path d="M5 3v3M3.5 4.5h3M6 17v3M4.5 18.5h3"/></svg></div><h3>Гуманайзер <span class="chip">Популярный</span></h3><p>Убирает AI-паттерны и делает текст живым. Есть академический режим.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Работа с текстом</div>
+      <div class="grid">
+        <a class="card" href="/restyle"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6 2 11.5S6 21 11.5 21c1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H16c3.3 0 6-2.7 6-6C22 5.6 17.5 2 12 2z"/><path d="M7.5 12h.01M9 7.5h.01M14 6.5h.01M17 9.5h.01"/></svg></div><h3>Рерайт под стиль</h3><p>Деловой, разговорный, для соцсетей или студенческий — разная подача.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card" href="/sokrat"><div class="ico"><svg viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/></svg></div><h3>Сократить текст</h3><p>Убирает воду и повторы, оставляет главное. От 20% до 75%.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card" href="/rezyume"><div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2 12h20"/></svg></div><h3>Улучшить резюме</h3><p>Сильные глаголы и конкретные достижения — резюме, которое заметят.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Общение и идеи</div>
+      <div class="grid">
+        <a class="card" href="/chat"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></div><h3>Чат с ИИ</h3><p>Задавай любые вопросы — как обычному ассистенту.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card" href="/idei"><div class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></div><h3>Идеи для контента</h3><p>10 идей для постов по теме — Telegram, Instagram, YouTube.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="section">
+  <div class="wrap">
+    <div class="feats">
+      <div class="feat"><div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div><b>Быстро</b><span>Ответ за 3–20 секунд в зависимости от инструмента.</span></div>
+      <div class="feat"><div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg></div><b>Без регистрации</b><span>Никаких аккаунтов и личных данных — просто вставь текст.</span></div>
+      <div class="feat"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg></div><b>Русский язык</b><span>Модель понимает нюансы русского, а не машинный перевод.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap prose">
+    <h2>Для кого эти инструменты</h2>
+    <p><b>Студентам</b> — чтобы быстро готовить рефераты, эссе и конспекты, разбираться в текстах и сдавать естественные работы, а не GPT-генерацию.</p>
+    <p><b>Блогерам и маркетологам</b> — чтобы тексты для Telegram и Instagram выглядели живо, а подача менялась под нужный тон за секунды.</p>
+    <p><b>Всем, кто работает с текстом</b> — переписать, сократить, улучшить резюме или просто задать вопрос ИИ.</p>
+    <h2>На какой модели работает сайт</h2>
+    <p>Используем <b>llama-3.3-70b-versatile</b> через Groq API — одну из лучших открытых моделей с быстрым ответом и бесплатным доступом.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><div class="fb">Для учёбы</div><a href="/vopros">Вопросы по тексту</a><a href="/generator">Генератор текста</a><a href="/gumanajzer">Гуманайзер</a></div>
+      <div><div class="fb">Работа с текстом</div><a href="/restyle">Рерайт под стиль</a><a href="/sokrat">Сократить текст</a><a href="/rezyume">Улучшить резюме</a></div>
+      <div><div class="fb">Общение и идеи</div><a href="/chat">Чат с ИИ</a><a href="/idei">Идеи для контента</a></div>
+    </div>
+    <div>© Textify AI · Бесплатно · Без регистрации · На русском</div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),(i%3)*80);io.unobserve(e.target);}})},{threshold:.15});
+document.querySelectorAll('.card').forEach(c=>io.observe(c));
+document.querySelectorAll('.card').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');}));
+(function(){const base=14820,start=new Date('2026-01-01').getTime();const days=Math.floor((Date.now()-start)/864e5);let n=base+days*143+Math.floor((Date.now()/3.6e6)%24)*3;const el=document.getElementById('cnt');let cur=Math.max(0,n-400);const t=setInterval(()=>{cur+=Math.ceil((n-cur)/12);if(cur>=n){cur=n;clearInterval(t);}el.textContent=cur.toLocaleString('ru-RU');},30);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Генератор текста · Textify AI</title>
+<meta name="description" content="Бесплатный AI-генератор текста на русском: рефераты, эссе, доклады и конспекты по любой теме за минуту. Без регистрации.">
+<link rel="canonical" href="https://majourci.online/generator">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="Генератор текста — рефераты и эссе · Textify AI">
+<meta property="og:description" content="Реферат, эссе, доклад или конспект по любой теме за минуту. Бесплатно.">
+<meta property="og:url" content="https://majourci.online/generator">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/study.css">
+<style>
+.cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
+.cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
+.cross-links{display:flex;flex-wrap:wrap;gap:10px}
+.cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
+.cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
+  <h1>Генератор текста</h1>
+  <p class="sub">Реферат, эссе, доклад или конспект по любой теме за минуту. Бесплатно · Без регистрации</p>
+  <label>Тема</label>
+  <input id="topic" placeholder="Например: Роль антибиотиков в современной медицине">
+  <div class="row">
+    <div><label>Тип работы</label>
+      <div class="select" data-name="type" data-value="referat">
+        <button type="button" class="select-btn"><span>Реферат</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="select-list">
+          <div class="select-opt sel" data-val="referat">Реферат</div>
+          <div class="select-opt" data-val="essay">Эссе</div>
+          <div class="select-opt" data-val="doklad">Доклад</div>
+          <div class="select-opt" data-val="konspekt">Конспект</div>
+        </div>
+      </div>
+    </div>
+    <div><label>Объём</label>
+      <div class="select" data-name="length" data-value="medium">
+        <button type="button" class="select-btn"><span>Средний</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="select-list">
+          <div class="select-opt" data-val="short">Короткий</div>
+          <div class="select-opt sel" data-val="medium">Средний</div>
+          <div class="select-opt" data-val="long">Большой</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <label>Пожелания (необязательно)</label>
+  <textarea id="extra" style="min-height:70px" placeholder="Например: упор на практику, простым языком, добавить примеры..."></textarea>
+  <button class="btn" id="go" onclick="gen()">Сгенерировать</button>
+  <div class="err" id="err"></div>
+  <div class="result" id="result"></div>
+  <div class="result-actions" id="actions" style="display:none">
+    <button class="mini" onclick="copyRes()">Копировать</button>
+    <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
+  </div>
+
+  <footer class="cross">
+    <div class="cross-title">Другие инструменты</div>
+    <div class="cross-links">
+      <a href="/gumanajzer">Гуманайзер текста</a>
+      <a href="/restyle">Рерайт под стиль</a>
+      <a href="/sokrat">Сократить текст</a>
+      <a href="/rezyume">Улучшить резюме</a>
+      <a href="/idei">Идеи для контента</a>
+      <a href="/vopros">Вопросы по тексту</a>
+      <a href="/chat">Чат с ИИ</a>
+    </div>
+  </footer>
+</div>
+<script>
+document.querySelectorAll('.select').forEach(sel=>{
+  const btn=sel.querySelector('.select-btn'),label=btn.querySelector('span');
+  sel.querySelectorAll('.select-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      sel.dataset.value=opt.dataset.val;label.textContent=opt.textContent;
+      sel.querySelectorAll('.select-opt').forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');
+      sel.classList.remove('open');
+    });
+  });
+  btn.addEventListener('click',e=>{e.stopPropagation();document.querySelectorAll('.select').forEach(s=>{if(s!==sel)s.classList.remove('open')});sel.classList.toggle('open');});
+});
+document.addEventListener('click',()=>document.querySelectorAll('.select').forEach(s=>s.classList.remove('open')));
+
+async function gen(){
+  const topic=document.getElementById('topic').value.trim();
+  const type=document.querySelector('.select[data-name="type"]').dataset.value;
+  const length=document.querySelector('.select[data-name="length"]').dataset.value;
+  const extra=document.getElementById('extra').value.trim();
+  const err=document.getElementById('err'),res=document.getElementById('result'),btn=document.getElementById('go'),act=document.getElementById('actions');
+  err.textContent='';
+  if(!topic){err.textContent='Введи тему';return;}
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Пишу...';res.classList.remove('show');act.style.display='none';
+  try{
+    const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic,type,length,extra})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Ошибка');
+    res.textContent=d.result||'Пустой результат';res.classList.add('show');act.style.display='flex';
+  }catch(e){err.textContent=e.message;}
+  btn.disabled=false;btn.textContent='Сгенерировать';
+}
+function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
+function downloadTxt(){const t=document.getElementById('result').textContent;const b=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tekst.txt';a.click();}
+</script>
+</body>
+</html>
