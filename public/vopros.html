@@ -19,7 +19,14 @@
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
 </style>
-</head>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Как работает инструмент «Вопросы по тексту»?","acceptedAnswer":{"@type":"Answer","text":"Вставляешь текст и задаёшь по нему вопрос, а ИИ находит и формулирует ответ на основе этого текста."}},
+{"@type":"Question","name":"Для чего это полезно?","acceptedAnswer":{"@type":"Answer","text":"Быстро найти нужное в большом тексте, разобраться в статье или учебнике, подготовиться к занятию или экзамену."}},
+{"@type":"Question","name":"Отвечает ли он только по моему тексту?","acceptedAnswer":{"@type":"Answer","text":"В первую очередь опирается на вставленный текст. Важные факты всё равно стоит перепроверить."}},
+{"@type":"Question","name":"Это бесплатно?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
+]}
+</script></head>
 <body>
 <div class="wrap">
   <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
@@ -38,7 +45,13 @@
     <button class="mini" onclick="copyRes()">Копировать</button>
   </div>
 
-  <footer class="cross">
+  <section class="faq-sec">
+  <h2>Частые вопросы</h2>
+  <details><summary>Как работает «Вопросы по тексту»?</summary><p>Вставляешь текст и задаёшь по нему вопрос, а ИИ находит и формулирует ответ на основе этого текста.</p></details>
+  <details><summary>Для чего это полезно?</summary><p>Быстро найти нужное в большом тексте, разобраться в статье или учебнике, подготовиться к занятию или экзамену.</p></details>
+  <details><summary>Отвечает только по моему тексту?</summary><p>В первую очередь опирается на вставленный текст. Важные факты всё равно стоит перепроверить.</p></details>
+  <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+</section><footer class="cross">
     <div class="cross-title">Другие инструменты</div>
     <div class="cross-links">
       <a href="/gumanajzer">Гуманайзер текста</a>
