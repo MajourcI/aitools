@@ -66,3 +66,12 @@ textarea:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
 .send{flex:0 0 52px;height:52px;border:none;border-radius:50%;background:linear-gradient(100deg,var(--accent),var(--accent2));color:#fff;font-size:18px;cursor:pointer;transition:transform .2s;box-shadow:0 8px 22px -8px rgba(79,142,247,.6)}
 .send:hover{transform:translateY(-2px)}
 .send:disabled{opacity:.6;cursor:not-allowed}
+.faq-sec{margin-top:48px}
+.faq-sec h2{font-family:'Syne',sans-serif;font-size:22px;margin-bottom:14px}
+.faq-sec details{border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;background:rgba(255,255,255,.02)}
+.faq-sec summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:"+";color:var(--accent);font-size:20px;font-weight:400}
+.faq-sec details[open] summary::after{content:"−"}
+.faq-sec details[open] summary{margin-bottom:8px}
+.faq-sec p{color:var(--text2);line-height:1.7;margin:0}
