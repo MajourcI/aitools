@@ -19,7 +19,14 @@
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
 </style>
-</head>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Что генерирует «Идеи для контента»?","acceptedAnswer":{"@type":"Answer","text":"Идеи для постов, видео, статей и других материалов по твоей теме или нише."}},
+{"@type":"Question","name":"Для кого этот инструмент?","acceptedAnswer":{"@type":"Answer","text":"Для блогеров, студентов, SMM-специалистов и всех, кому нужно быстро придумать темы."}},
+{"@type":"Question","name":"Как получить идеи под мою нишу?","acceptedAnswer":{"@type":"Answer","text":"Опиши свою тему или нишу как можно конкретнее, и инструмент предложит подходящие варианты."}},
+{"@type":"Question","name":"Это бесплатно?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
+]}
+</script></head>
 <body>
 <div class="wrap">
   <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
@@ -37,7 +44,13 @@
     <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
   </div>
 
-  <footer class="cross">
+  <section class="faq-sec">
+  <h2>Частые вопросы</h2>
+  <details><summary>Что генерирует «Идеи для контента»?</summary><p>Идеи для постов, видео, статей и других материалов по твоей теме или нише.</p></details>
+  <details><summary>Для кого этот инструмент?</summary><p>Для блогеров, студентов, SMM-специалистов и всех, кому нужно быстро придумать темы.</p></details>
+  <details><summary>Как получить идеи под мою нишу?</summary><p>Опиши свою тему или нишу конкретнее, и инструмент предложит подходящие варианты.</p></details>
+  <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+</section><footer class="cross">
     <div class="cross-title">Другие инструменты</div>
     <div class="cross-links">
       <a href="/gumanajzer">Гуманайзер текста</a>
