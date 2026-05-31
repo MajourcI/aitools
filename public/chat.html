@@ -20,7 +20,14 @@
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
 .chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
 </style>
-</head>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Что такое «Чат с ИИ»?","acceptedAnswer":{"@type":"Answer","text":"Свободный чат с нейросетью: задавай вопросы, проси помочь с текстом, учёбой или идеями."}},
+{"@type":"Question","name":"Помнит ли он предыдущие сообщения?","acceptedAnswer":{"@type":"Answer","text":"Да, в рамках текущего диалога он держит контекст и помнит, о чём вы говорили."}},
+{"@type":"Question","name":"Чем чат отличается от других инструментов?","acceptedAnswer":{"@type":"Answer","text":"Здесь свободное общение на любую тему, а не одна конкретная задача, как у остальных инструментов."}},
+{"@type":"Question","name":"Это бесплатно?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
+]}
+</script></head>
 <body>
 <div class="wrap">
   <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
@@ -38,7 +45,13 @@
     <button class="send" id="send" onclick="send()" title="Отправить">↑</button>
   </div>
 
-  <footer class="cross">
+  <section class="faq-sec">
+  <h2>Частые вопросы</h2>
+  <details><summary>Что такое «Чат с ИИ»?</summary><p>Свободный чат с нейросетью: задавай вопросы, проси помочь с текстом, учёбой или идеями.</p></details>
+  <details><summary>Помнит ли он предыдущие сообщения?</summary><p>Да, в рамках текущего диалога он держит контекст и помнит, о чём вы говорили.</p></details>
+  <details><summary>Чем чат отличается от других инструментов?</summary><p>Здесь свободное общение на любую тему, а не одна конкретная задача.</p></details>
+  <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+</section><footer class="cross">
     <div class="cross-title">Другие инструменты</div>
     <div class="cross-links">
       <a href="/gumanajzer">Гуманайзер текста</a>
