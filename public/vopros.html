@@ -18,6 +18,7 @@
 .cross-links{display:flex;flex-wrap:wrap;gap:10px}
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -37,12 +38,16 @@
   <textarea id="text" placeholder="Вставь текст, по которому хочешь задать вопрос..."></textarea>
   <label>Вопрос</label>
   <input id="question" placeholder="Например: в чём главная мысль третьего абзаца?">
+  <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
   <button class="btn" id="go" onclick="run()">Получить ответ</button>
   <div class="err" id="err"></div>
   <div class="result" id="result"></div>
   <div class="result-actions" id="actions" style="display:none">
     <button class="mini" onclick="copyRes()">Копировать</button>
+    <button class="mini" onclick="dl('txt')">Скачать .txt</button>
+    <button class="mini" onclick="dl('doc')">Word</button>
+    <button class="mini" onclick="dl('pdf')">PDF</button>
   </div>
 
   <section class="faq-sec">
@@ -64,24 +69,32 @@
     </div>
   </footer>
 </div>
+<script src="/util.js"></script>
 <script>
+var curText='';
+function fname(){return 'otvet-textify';}
 async function run(){
   const text=document.getElementById('text').value.trim();
   const question=document.getElementById('question').value.trim();
+  const hp=document.getElementById('hp').value;
   const err=document.getElementById('err'),res=document.getElementById('result'),btn=document.getElementById('go'),act=document.getElementById('actions');
   err.textContent='';
   if(!text){err.textContent='Вставь текст';return;}
   if(!question){err.textContent='Задай вопрос';return;}
   btn.disabled=true;btn.innerHTML='<span class="spin"></span>Думаю...';res.classList.remove('show');act.style.display='none';
   try{
-    const r=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,question})});
+    const r=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,question,hp})});
     const d=await r.json();
     if(!r.ok)throw new Error(d.error||'Ошибка');
-    res.textContent=d.result||'Пустой результат';res.classList.add('show');act.style.display='flex';
+    curText=d.result||'Пустой результат';
+    res.textContent=curText;res.classList.add('show');act.style.display='flex';
+    if(window.Textify)Textify.saveResult('vopros',curText);
   }catch(e){err.textContent=e.message;}
   btn.disabled=false;btn.textContent='Получить ответ';
 }
 function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
+function dl(kind){if(!curText)return;var n=fname();if(kind==='txt')Textify.downloadTxt(curText,n);else if(kind==='doc')Textify.downloadDoc(curText,n);else if(kind==='pdf')Textify.downloadPdf(curText,n);}
+if(window.Textify){Textify.autosave('vopros',['text','question']);var saved=Textify.loadResult('vopros');if(saved){curText=saved;var res=document.getElementById('result');res.textContent=saved;res.classList.add('show');document.getElementById('actions').style.display='flex';}}
 </script>
 </body>
 </html>
