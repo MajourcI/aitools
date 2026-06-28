@@ -221,4 +221,11 @@ app.post('/api/tool', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 require('./routes_study')(app, callGroqChat);
 require('./routes_ocr')(app);
+
+// ---- 404: дружелюбная страница для сайта, JSON для API ----
+app.use((req, res) => {
+  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Не найдено' });
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 app.listen(PORT, () => console.log(`Сервер на порту ${PORT}`));
