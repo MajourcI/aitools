@@ -102,7 +102,7 @@ async function run(){
 }
 function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
 function dl(kind){if(!curText)return;var n=fname();if(kind==='txt')Textify.downloadTxt(curText,n);else if(kind==='doc')Textify.downloadDoc(curText,n);else if(kind==='pdf')Textify.downloadPdf(curText,n);}
-if(window.Textify){Textify.autosave('vopros',['text','question']);var saved=Textify.loadResult('vopros');if(saved){curText=saved;var res=document.getElementById('result');res.textContent=saved;res.classList.add('show');document.getElementById('actions').style.display='flex';}}
+if(window.Textify){Textify.autosave('vopros',['text','question']);var saved=Textify.loadResult('vopros');if(saved&&saved.t){curText=saved.t;var res=document.getElementById('result');res.textContent=curText;res.classList.add('show');document.getElementById('actions').style.display='flex';}}
 </script>
 </body>
 </html>
