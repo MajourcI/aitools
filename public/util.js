@@ -1,4 +1,4 @@
-/* Textify AI — общие клиентские утилиты: экспорт (Word / PDF / txt) + автосохранение.
+/* Texto — общие клиентские утилиты: экспорт (Word / PDF / txt) + автосохранение.
    Без внешних библиотек. Подключается в <head>: <script src="/util.js"></script> */
 (function () {
   var T = (window.Textify = window.Textify || {});
@@ -29,7 +29,7 @@
     var body = nl2br(text);
     var html =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
-      '<head><meta charset="utf-8"><title>Textify AI</title></head>' +
+      '<head><meta charset="utf-8"><title>Texto</title></head>' +
       '<body style="font-family:&#39;Times New Roman&#39;,serif;font-size:14pt;line-height:1.5;">' +
       body + '</body></html>';
     triggerDownload(new Blob(['\ufeff' + html], { type: 'application/msword' }), sanitize(name) + '.doc');
