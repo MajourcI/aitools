@@ -46,6 +46,8 @@
 .flags b{font-size:14px;display:block;margin-bottom:10px}
 .flag{display:inline-block;font-size:13px;color:var(--text);background:rgba(224,106,106,.12);border:1px solid rgba(224,106,106,.35);padding:5px 11px;border-radius:99px;margin:0 7px 7px 0}
 .flag.ok{background:rgba(31,212,154,.12);border-color:rgba(31,212,154,.35)}
+.fixbtn{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:var(--display);font-weight:700;font-size:15px;color:#fff;background:linear-gradient(100deg,var(--accent),var(--accent2));padding:13px 24px;border-radius:var(--radius-pill);transition:transform .2s var(--ease),box-shadow .25s;box-shadow:var(--glow)}
+.fixbtn:hover{transform:translateY(-2px)}
 .disc{font-size:12.5px;color:var(--text3);margin-top:16px;line-height:1.6}
 </style>
 <script type="application/ld+json">
@@ -74,6 +76,7 @@
     </div>
     <div class="metrics" id="metrics"></div>
     <div class="flags" id="flags"></div>
+    <div id="cta"></div>
     <p class="disc">Это эвристическая оценка по косвенным признакам, а не точный детектор. Используй её как подсказку, что улучшить, а не как окончательный вердикт.</p>
   </div>
 
@@ -164,6 +167,10 @@ function check(){
   var flags=document.getElementById('flags');
   if(r.foundCliche.length){flags.innerHTML='<b>Найденные штампы:</b>'+r.foundCliche.map(function(c){return '<span class="flag">'+c+'</span>';}).join('');}
   else{flags.innerHTML='<b>Штампы:</b><span class="flag ok">канцелярских штампов не найдено</span>';}
+  var cta=document.getElementById('cta');
+  cta.innerHTML = r.overall>=36
+    ? '<a class="fixbtn" href="/gumanajzer">Сделать текст живым в гуманайзере →</a>'
+    : '';
   out.classList.add('show');
   out.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
