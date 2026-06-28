@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,191 +16,352 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Textify AI — бесплатные AI-инструменты на русском">
 <meta name="twitter:description" content="9 AI-инструментов для текста и учёбы. Бесплатно и без регистрации.">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"Textify AI","url":"https://majourci.online/","inLanguage":"ru","description":"Бесплатные AI-инструменты для текста и учёбы на русском языке"}
 </script>
+<script>
+(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
 <style>
 :root{
-  --bg:#080c14;--card:#111827;--card-border:rgba(255,255,255,0.07);--card-hover:#161f31;
-  --accent:#4f8ef7;--accent2:#7b5cf5;--accent3:#00d4a8;
-  --text:#f0f4ff;--text2:#8b9dc3;--text3:#4a5a7a;--radius:16px;--radius-sm:10px;
+  --accent:#7c6cff;--accent-2:#9d7bff;--accent-ink:#ffffff;
+  --accent-soft:rgba(124,108,255,.14);--accent-line:rgba(124,108,255,.40);
+  --ok:#1fd49a;
+  --radius:20px;--radius-sm:14px;--radius-pill:999px;
+  --maxw:1120px;--ease:cubic-bezier(.22,.61,.36,1);
+  --font:'DM Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --display:'Syne',var(--font);
+}
+[data-theme="dark"]{
+  --bg:#0a0a0d;--bg-soft:#0e0e13;--surface:#141419;--surface-2:#1b1b22;
+  --border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.14);
+  --text:#f4f4f7;--text-2:#a7a7b4;--text-3:#6d6d7a;
+  --shadow:0 24px 60px -28px rgba(0,0,0,.75);--glow:0 30px 80px -30px rgba(124,108,255,.55);
+}
+[data-theme="light"]{
+  --bg:#fafaf8;--bg-soft:#f3f3ef;--surface:#ffffff;--surface-2:#f6f6f3;
+  --border:rgba(17,17,20,.09);--border-strong:rgba(17,17,20,.16);
+  --text:#15151a;--text-2:#56565f;--text-3:#9a9aa3;
+  --shadow:0 24px 55px -30px rgba(20,20,40,.30);--glow:0 30px 70px -34px rgba(124,108,255,.45);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 html,*{scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--accent2));border-radius:99px;border:2px solid var(--bg)}
-::-webkit-scrollbar-thumb:hover{background:var(--accent)}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6;overflow-x:hidden}
-h1,h2,h3,.brand{font-family:'Syne',sans-serif}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px;border:2px solid var(--bg)}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .4s var(--ease),color .4s var(--ease)}
+h1,h2,h3,.brand,.display{font-family:var(--display);letter-spacing:-.02em}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
 svg{display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--display);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--accent)}
 
-.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(8,12,20,.72);border-bottom:1px solid var(--card-border)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{font-weight:800;font-size:22px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.nav-cta{font-size:14px;color:var(--text2);border:1px solid var(--card-border);padding:8px 16px;border-radius:99px;transition:.25s}
-.nav-cta:hover{color:var(--text);border-color:var(--accent)}
+/* NAV */
+.nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--border)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;color:var(--text)}
+.brand .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;box-shadow:var(--glow)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-link{font-size:14.5px;color:var(--text-2);padding:8px 14px;border-radius:var(--radius-pill);transition:color .25s,background .25s}
+.nav-link:hover{color:var(--text);background:var(--surface-2)}
+.nav-cta{font-size:14.5px;font-weight:600;color:var(--accent-ink);background:var(--accent);padding:9px 18px;border-radius:var(--radius-pill);transition:transform .25s var(--ease),box-shadow .25s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:var(--glow)}
+.toggle{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--surface);border-radius:50%;color:var(--text-2);cursor:pointer;transition:.25s}
+.toggle:hover{color:var(--text);border-color:var(--border-strong)}
+.toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+[data-theme="dark"] .toggle .sun{display:none}
+[data-theme="light"] .toggle .moon{display:none}
 
-.hero{position:relative;text-align:center;padding:90px 0 70px;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;animation:float 14s ease-in-out infinite}
-.blob.b1{width:420px;height:420px;background:#1e3a8a;top:-120px;left:-80px}
-.blob.b2{width:380px;height:380px;background:#5b21b6;top:-60px;right:-90px;animation-delay:-5s}
-.blob.b3{width:300px;height:300px;background:#065f54;bottom:-140px;left:40%;animation-delay:-9s}
-@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,30px) scale(1.08)}}
-.hero .wrap{position:relative;z-index:1}
-.badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);background:rgba(255,255,255,.04);border:1px solid var(--card-border);padding:7px 15px;border-radius:99px;margin-bottom:26px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--accent3);box-shadow:0 0 0 0 rgba(0,212,168,.6);animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,212,168,.6)}70%{box-shadow:0 0 0 9px rgba(0,212,168,0)}100%{box-shadow:0 0 0 0 rgba(0,212,168,0)}}
-.hero h1{font-size:clamp(34px,6vw,60px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
-.hero h1 .grad{background:linear-gradient(100deg,var(--accent),var(--accent2) 55%,var(--accent3));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.lead{font-size:clamp(16px,2.4vw,20px);color:var(--text2);max-width:620px;margin:0 auto 34px}
-.cta{display:inline-block;font-weight:700;font-size:16px;color:#fff;background:linear-gradient(100deg,var(--accent),var(--accent2));padding:15px 34px;border-radius:99px;transition:.28s;box-shadow:0 10px 30px -8px rgba(79,142,247,.55)}
-.cta:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(123,92,245,.6)}
-.stats{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:46px}
-.stat{background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 22px;min-width:120px}
-.stat b{display:block;font-family:'Syne';font-size:24px;font-weight:700;color:var(--text)}
-.stat span{font-size:13px;color:var(--text3)}
+/* HERO */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;padding:80px 0 60px}
+.aura{position:absolute;border-radius:50%;filter:blur(120px);z-index:0;pointer-events:none}
+.aura.a1{width:560px;height:560px;background:var(--accent);opacity:.16;top:-180px;left:-120px}
+.aura.a2{width:460px;height:460px;background:var(--accent-2);opacity:.13;bottom:-200px;right:-100px}
+.hero .wrap{position:relative;z-index:1;width:100%}
+.badge{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:500;color:var(--text-2);background:var(--surface);border:1px solid var(--border);padding:8px 16px;border-radius:var(--radius-pill);margin-bottom:30px;box-shadow:var(--shadow)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(31,212,154,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,212,154,.55)}70%{box-shadow:0 0 0 10px rgba(31,212,154,0)}100%{box-shadow:0 0 0 0 rgba(31,212,154,0)}}
+.hero h1{font-size:clamp(44px,8.5vw,108px);font-weight:800;line-height:.98;margin-bottom:26px;max-width:14ch}
+.hero h1 .grad{background:linear-gradient(105deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{font-size:clamp(17px,2.1vw,21px);color:var(--text-2);max-width:580px;margin-bottom:40px}
+.cta-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:16.5px;color:var(--accent-ink);background:linear-gradient(105deg,var(--accent),var(--accent-2));padding:17px 36px;border-radius:var(--radius-pill);box-shadow:var(--glow);transition:transform .2s var(--ease),box-shadow .25s;will-change:transform}
+.cta svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.cta:hover svg{transform:translateX(4px)}
+.cta-ghost{font-weight:600;font-size:15.5px;color:var(--text-2);padding:15px 20px;transition:color .25s}
+.cta-ghost:hover{color:var(--text)}
+.stats{display:flex;gap:40px;flex-wrap:wrap;margin-top:60px;padding-top:36px;border-top:1px solid var(--border)}
+.stat b{display:block;font-family:var(--display);font-size:clamp(28px,4vw,40px);font-weight:800;line-height:1;color:var(--text)}
+.stat span{font-size:14px;color:var(--text-3);margin-top:6px;display:block}
 
-.section{padding:60px 0}
-.section h2{font-size:30px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
-.section .sub{color:var(--text2);margin-bottom:34px}
-.group{margin-bottom:44px}
-.group-title{display:flex;align-items:center;gap:12px;font-family:'Syne';font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:18px}
-.group-title::after{content:"";flex:1;height:1px;background:var(--card-border)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+/* SECTIONS */
+.section{padding:clamp(70px,11vw,130px) 0}
+.s-head{max-width:640px;margin-bottom:54px}
+.s-head .eyebrow{margin-bottom:14px;display:block}
+.s-head h2{font-size:clamp(30px,4.6vw,48px);font-weight:800;line-height:1.04;margin-bottom:14px}
+.s-head p{color:var(--text-2);font-size:17px}
 
-.card{position:relative;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:24px;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;opacity:0;transform:translateY(22px)}
-.card.in{opacity:1;transform:none}
-.card::before{content:"";position:absolute;inset:0;background:radial-gradient(140px 140px at var(--mx,50%) -10%,rgba(79,142,247,.16),transparent 70%);opacity:0;transition:.3s}
-.card:hover{transform:translateY(-5px);border-color:rgba(79,142,247,.4);box-shadow:0 20px 45px -20px rgba(79,142,247,.5)}
-.card:hover::before{opacity:1}
-.ico{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(135deg,rgba(79,142,247,.18),rgba(123,92,245,.18));color:var(--accent);margin-bottom:16px}
-.ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.card h3{font-size:19px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.chip{font-family:'DM Sans';font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent3);background:rgba(0,212,168,.12);border:1px solid rgba(0,212,168,.3);padding:2px 8px;border-radius:99px}
-.card p{color:var(--text2);font-size:14.5px;margin-bottom:18px;min-height:42px}
-.open{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--accent)}
-.open svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:.25s}
+.group{margin-bottom:56px}
+.group:last-child{margin-bottom:0}
+.group-title{display:flex;align-items:center;gap:16px;font-family:var(--display);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-3);margin-bottom:22px}
+.group-title::after{content:"";flex:1;height:1px;background:var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+
+.card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;overflow:hidden;transition:transform .35s var(--ease),border-color .35s,box-shadow .35s;display:flex;flex-direction:column}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(220px 180px at var(--mx,50%) var(--my,0%),var(--accent-soft),transparent 70%);opacity:0;transition:opacity .35s;pointer-events:none}
+.card:hover{transform:translateY(-6px);border-color:var(--accent-line);box-shadow:var(--glow)}
+.card:hover::after{opacity:1}
+.ico{width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:var(--accent-soft);color:var(--accent);margin-bottom:18px;transition:transform .35s var(--ease)}
+.card:hover .ico{transform:scale(1.07) rotate(-3deg)}
+.ico svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:20px;font-weight:700;margin-bottom:9px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;letter-spacing:-.01em}
+.chip{font-family:var(--font);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);padding:3px 9px;border-radius:99px}
+.card p{color:var(--text-2);font-size:15px;margin-bottom:20px;flex:1}
+.open{display:inline-flex;align-items:center;gap:7px;font-size:14.5px;font-weight:700;color:var(--accent)}
+.open svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
 .card:hover .open svg{transform:translateX(4px)}
 
-.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.feat{padding:22px;border:1px solid var(--card-border);border-radius:var(--radius);background:rgba(255,255,255,.02)}
-.feat .ico{margin-bottom:12px}
-.feat b{display:block;font-family:'Syne';font-size:16px;margin-bottom:4px}
-.feat span{color:var(--text2);font-size:14px}
+/* AUDIENCE / TECH */
+.cards-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.feat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px}
+.feat .ico{margin-bottom:18px}
+.feat b{display:block;font-family:var(--display);font-size:19px;font-weight:700;margin-bottom:8px}
+.feat span{color:var(--text-2);font-size:15px}
+.tech{margin-top:22px;display:flex;align-items:flex-start;gap:18px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;flex-wrap:wrap}
+.tech .ico{flex:none;margin:0}
+.tech-body b{font-family:var(--display);font-size:17px}
+.tech-body p{color:var(--text-2);font-size:15px;margin-top:6px;max-width:680px}
 
-.prose{max-width:760px}
-.prose h2{font-size:24px;margin:32px 0 10px}
-.prose p{color:var(--text2);margin-bottom:12px}
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
 
-footer{border-top:1px solid var(--card-border);padding:46px 0;margin-top:40px;color:var(--text3);font-size:14px}
-footer .cols{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;margin-bottom:30px}
-footer a{color:var(--text2);display:block;padding:4px 0;transition:.2s}
-footer a:hover{color:var(--accent)}
-footer .fb{font-family:'Syne';font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.08em;font-size:13px;margin-bottom:10px}
-@media(max-width:600px){.hero{padding:60px 0 50px}.section{padding:44px 0}}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:64px 0 40px;margin-top:20px;background:var(--bg-soft)}
+footer .cols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:32px;margin-bottom:44px}
+footer .about .brand{margin-bottom:14px}
+footer .about p{color:var(--text-3);font-size:14px;max-width:240px}
+footer .fcol .fb{font-family:var(--display);font-weight:700;color:var(--text);font-size:13px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+footer a.flink{color:var(--text-2);display:block;padding:5px 0;font-size:14.5px;transition:color .2s}
+footer a.flink:hover{color:var(--accent)}
+footer .copy{border-top:1px solid var(--border);padding-top:24px;color:var(--text-3);font-size:13.5px}
+@media(max-width:860px){footer .cols{grid-template-columns:1fr 1fr}footer .about{grid-column:1/-1}}
+@media(max-width:560px){.hero{min-height:auto;padding:54px 0 40px}.stats{gap:28px}.grid{grid-template-columns:1fr}footer .cols{grid-template-columns:1fr 1fr;gap:24px}.nav-link{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
-<nav class="nav"><div class="wrap"><a class="brand" href="/">Textify AI</a><div style="display:flex;gap:10px"><a class="nav-cta" href="/about">О проекте</a><a class="nav-cta" href="#tools">Инструменты ↓</a></div></div></nav>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="/"><span class="mark">✦</span> Textify AI</a>
+  <div class="nav-right">
+    <a class="nav-link" href="/about">О проекте</a>
+    <button class="toggle" id="theme" aria-label="Сменить тему">
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+      <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <a class="nav-cta" href="#tools">Инструменты</a>
+  </div>
+</div></nav>
 
 <header class="hero">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="aura a1"></div><div class="aura a2"></div>
   <div class="wrap">
-    <div class="badge"><span class="dot"></span> Работает прямо сейчас</div>
-    <h1>AI-инструменты для <span class="grad">текста и учёбы</span></h1>
-    <p class="lead">Вопросы по тексту, генератор рефератов и эссе, гуманайзер, чат с ИИ и другие инструменты на русском — бесплатно и без регистрации.</p>
-    <a class="cta" href="#tools">Выбрать инструмент</a>
-    <div class="stats">
-      <div class="stat"><b>9</b><span>инструментов</span></div>
-      <div class="stat"><b>0 ₽</b><span>стоимость</span></div>
+    <div class="badge reveal"><span class="dot"></span> Работает прямо сейчас</div>
+    <h1 class="reveal">AI-инструменты для <span class="grad">текста и учёбы</span></h1>
+    <p class="lead reveal">Вопросы по тексту, генератор рефератов и эссе, гуманайзер, чат с ИИ и ещё шесть инструментов на русском — бесплатно и без регистрации.</p>
+    <div class="cta-row reveal">
+      <a class="cta" id="magnet" href="#tools">Выбрать инструмент <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="cta-ghost" href="/about">Как это работает →</a>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><b data-count="9">0</b><span>инструментов</span></div>
+      <div class="stat"><b>0&nbsp;₽</b><span>полностью бесплатно</span></div>
       <div class="stat"><b id="cnt">—</b><span>текстов обработано</span></div>
-      <div class="stat"><b>без</b><span>регистрации</span></div>
+      <div class="stat"><b>0</b><span>регистраций</span></div>
     </div>
   </div>
 </header>
 
 <main class="section" id="tools">
   <div class="wrap">
-    <h2>Инструменты</h2>
-    <p class="sub">Выбери, что нужно — каждый инструмент работает за несколько секунд.</p>
+    <div class="s-head reveal">
+      <span class="eyebrow">9 инструментов</span>
+      <h2>Выбери, что нужно сделать</h2>
+      <p>Каждый инструмент работает за несколько секунд — вставь текст и получи результат.</p>
+    </div>
 
     <div class="group">
-      <div class="group-title">Для учёбы</div>
+      <div class="group-title reveal">Для учёбы</div>
       <div class="grid">
-        <a class="card" href="/foto">
-  <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L19 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/><circle cx="12" cy="12.5" r="3.5"/></svg></div>
-  <h3>Распознать текст с фото <span class="chip">Новое</span></h3>
-  <p>Загрузи фото или скриншот — ИИ извлечёт весь текст с картинки.</p>
-  <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-</a>
-        <a class="card" href="/vopros"><div class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9.6 12.6a1.8 1.8 0 1 1 2.7 1.6c-.5.3-.9.7-.9 1.3"/><path d="M11.4 18h.01"/></svg></div><h3>Вопросы по тексту</h3><p>Вставь текст и спроси что угодно — ИИ ответит строго по нему.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
-        <a class="card" href="/generator"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div><h3>Генератор текста</h3><p>Реферат, эссе, доклад или конспект по любой теме за минуту.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
-        <a class="card" href="/gumanajzer"><div class="ico"><svg viewBox="0 0 24 24"><path d="M13 3l2.2 5.8L21 11l-5.8 2.2L13 19l-2.2-5.8L5 11l5.8-2.2L13 3z"/><path d="M5 3v3M3.5 4.5h3M6 17v3M4.5 18.5h3"/></svg></div><h3>Гуманайзер <span class="chip">Популярный</span></h3><p>Убирает AI-паттерны и делает текст живым. Есть академический режим.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card reveal" href="/foto">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L19 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/><circle cx="12" cy="12.5" r="3.5"/></svg></div>
+          <h3>Распознать текст с фото <span class="chip">Новое</span></h3>
+          <p>Загрузи фото или скриншот — ИИ извлечёт весь текст с картинки.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="card reveal" href="/vopros">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9.6 12.6a1.8 1.8 0 1 1 2.7 1.6c-.5.3-.9.7-.9 1.3"/><path d="M11.4 18h.01"/></svg></div>
+          <h3>Вопросы по тексту</h3>
+          <p>Вставь текст и спроси что угодно — ИИ ответит строго по нему.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="card reveal" href="/generator">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+          <h3>Генератор текста</h3>
+          <p>Реферат, эссе, доклад или конспект по любой теме за минуту.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="card reveal" href="/gumanajzer">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M13 3l2.2 5.8L21 11l-5.8 2.2L13 19l-2.2-5.8L5 11l5.8-2.2L13 3z"/><path d="M5 3v3M3.5 4.5h3M6 17v3M4.5 18.5h3"/></svg></div>
+          <h3>Гуманайзер <span class="chip">Популярный</span></h3>
+          <p>Убирает AI-паттерны и делает текст живым. Есть академический режим.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
       </div>
     </div>
 
     <div class="group">
-      <div class="group-title">Работа с текстом</div>
+      <div class="group-title reveal">Работа с текстом</div>
       <div class="grid">
-        <a class="card" href="/restyle"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6 2 11.5S6 21 11.5 21c1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H16c3.3 0 6-2.7 6-6C22 5.6 17.5 2 12 2z"/><path d="M7.5 12h.01M9 7.5h.01M14 6.5h.01M17 9.5h.01"/></svg></div><h3>Рерайт под стиль</h3><p>Деловой, разговорный, для соцсетей или студенческий — разная подача.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
-        <a class="card" href="/sokrat"><div class="ico"><svg viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/></svg></div><h3>Сократить текст</h3><p>Убирает воду и повторы, оставляет главное. От 20% до 75%.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
-        <a class="card" href="/rezyume"><div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2 12h20"/></svg></div><h3>Улучшить резюме</h3><p>Сильные глаголы и конкретные достижения — резюме, которое заметят.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card reveal" href="/restyle">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6 2 11.5S6 21 11.5 21c1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H16c3.3 0 6-2.7 6-6C22 5.6 17.5 2 12 2z"/><path d="M7.5 12h.01M9 7.5h.01M14 6.5h.01M17 9.5h.01"/></svg></div>
+          <h3>Рерайт под стиль</h3>
+          <p>Деловой, разговорный, для соцсетей или студенческий — разная подача.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="card reveal" href="/sokrat">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/></svg></div>
+          <h3>Сократить текст</h3>
+          <p>Убирает воду и повторы, оставляет главное. От 20% до 75%.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="card reveal" href="/rezyume">
+          <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2 12h20"/></svg></div>
+          <h3>Улучшить резюме</h3>
+          <p>Сильные глаголы и конкретные достижения — резюме, которое заметят.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
       </div>
     </div>
 
     <div class="group">
-      <div class="group-title">Общение и идеи</div>
+      <div class="group-title reveal">Общение и идеи</div>
       <div class="grid">
-        <a class="card" href="/chat"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></div><h3>Чат с ИИ</h3><p>Задавай любые вопросы — как обычному ассистенту.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
-        <a class="card" href="/idei"><div class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></div><h3>Идеи для контента</h3><p>10 идей для постов по теме — Telegram, Instagram, YouTube.</p><span class="open">Открыть <svg viewBox="0 0 16 16"><path d="M3 8h9M9 4l4 4-4 4"/></svg></span></a>
+        <a class="card reveal" href="/chat">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></div>
+          <h3>Чат с ИИ</h3>
+          <p>Задавай любые вопросы — как обычному ассистенту.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="card reveal" href="/idei">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></div>
+          <h3>Идеи для контента</h3>
+          <p>10 идей для постов по теме — Telegram, Instagram, YouTube.</p>
+          <span class="open">Открыть <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
       </div>
     </div>
   </div>
 </main>
 
-<section class="section">
+<section class="section" style="padding-top:0">
   <div class="wrap">
-    <div class="feats">
-      <div class="feat"><div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div><b>Быстро</b><span>Ответ за 3–20 секунд в зависимости от инструмента.</span></div>
-      <div class="feat"><div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg></div><b>Без регистрации</b><span>Никаких аккаунтов и личных данных — просто вставь текст.</span></div>
-      <div class="feat"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg></div><b>Русский язык</b><span>Модель понимает нюансы русского, а не машинный перевод.</span></div>
+    <div class="s-head reveal">
+      <span class="eyebrow">Для кого</span>
+      <h2>Кому это пригодится</h2>
+      <p>Один набор инструментов под разные задачи — от учёбы до контента.</p>
     </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap prose">
-    <h2>Для кого эти инструменты</h2>
-    <p><b>Студентам</b> — чтобы быстро готовить рефераты, эссе и конспекты, разбираться в текстах и сдавать естественные работы, а не GPT-генерацию.</p>
-    <p><b>Блогерам и маркетологам</b> — чтобы тексты для Telegram и Instagram выглядели живо, а подача менялась под нужный тон за секунды.</p>
-    <p><b>Всем, кто работает с текстом</b> — переписать, сократить, улучшить резюме или просто задать вопрос ИИ.</p>
-    <h2>На какой модели работает сайт</h2>
-    <p>Используем <b>llama-3.3-70b-versatile</b>, а для распознавания текста с фото — Llama 4 со зрением, всё через Groq API. Одни из лучших открытых моделей: быстрый ответ и бесплатный доступ.</p>
+    <div class="cards-3">
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg></div>
+        <b>Студентам</b>
+        <span>Быстро готовить рефераты, эссе и конспекты, разбираться в текстах и сдавать естественные работы, а не GPT-генерацию.</span>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg></div>
+        <b>Блогерам и маркетологам</b>
+        <span>Тексты для Telegram и Instagram выглядят живо, а подача меняется под нужный тон за секунды.</span>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <b>Всем, кто работает с текстом</b>
+        <span>Переписать, сократить, улучшить резюме или просто задать вопрос ИИ — без лишних шагов.</span>
+      </div>
+    </div>
+    <div class="tech reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div>
+      <div class="tech-body">
+        <b>На чём работает</b>
+        <p>Под капотом — <b>llama-3.3-70b-versatile</b>, а для распознавания текста с фото Llama 4 со зрением, всё через Groq API. Одни из лучших открытых моделей: быстрый ответ и бесплатный доступ.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div class="cols">
-      <div><div class="fb">Для учёбы</div><a href="/vopros">Вопросы по тексту</a><a href="/generator">Генератор текста</a><a href="/gumanajzer">Гуманайзер</a></div>
-      <div><div class="fb">Работа с текстом</div><a href="/restyle">Рерайт под стиль</a><a href="/sokrat">Сократить текст</a><a href="/rezyume">Улучшить резюме</a></div>
-      <div><div class="fb">Общение и идеи</div><a href="/chat">Чат с ИИ</a><a href="/idei">Идеи для контента</a></div>
+      <div class="about">
+        <a class="brand" href="/"><span class="mark">✦</span> Textify AI</a>
+        <p>Бесплатные AI-инструменты для текста и учёбы на русском. Без регистрации.</p>
+      </div>
+      <div class="fcol"><div class="fb">Для учёбы</div><a class="flink" href="/foto">Текст с фото</a><a class="flink" href="/vopros">Вопросы по тексту</a><a class="flink" href="/generator">Генератор текста</a><a class="flink" href="/gumanajzer">Гуманайзер</a></div>
+      <div class="fcol"><div class="fb">Работа с текстом</div><a class="flink" href="/restyle">Рерайт под стиль</a><a class="flink" href="/sokrat">Сократить текст</a><a class="flink" href="/rezyume">Улучшить резюме</a></div>
+      <div class="fcol"><div class="fb">Общение и идеи</div><a class="flink" href="/chat">Чат с ИИ</a><a class="flink" href="/idei">Идеи для контента</a></div>
+      <div class="fcol"><div class="fb">Проект</div><a class="flink" href="/about">О проекте</a></div>
     </div>
-    <div><a href="/about" style="color:var(--text2)">О проекте</a> · © Textify AI · Бесплатно · Без регистрации · На русском</div>
+    <div class="copy">© Textify AI · Бесплатно · Без регистрации · На русском</div>
   </div>
 </footer>
 
 <script>
-const io=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),(i%3)*80);io.unobserve(e.target);}})},{threshold:.15});
-document.querySelectorAll('.card').forEach(c=>io.observe(c));
-document.querySelectorAll('.card').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');}));
-(function(){const base=14820,start=new Date('2026-01-01').getTime();const days=Math.floor((Date.now()-start)/864e5);let n=base+days*143+Math.floor((Date.now()/3.6e6)%24)*3;const el=document.getElementById('cnt');let cur=Math.max(0,n-400);const t=setInterval(()=>{cur+=Math.ceil((n-cur)/12);if(cur>=n){cur=n;clearInterval(t);}el.textContent=cur.toLocaleString('ru-RU');},30);})();
+(function(){
+  var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Theme toggle
+  var btn=document.getElementById('theme');
+  btn&&btn.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
+    document.documentElement.setAttribute('data-theme',cur);
+    try{localStorage.setItem('theme',cur);}catch(e){}
+  });
+  // Reveal on scroll (fade-up + stagger within a row)
+  if('IntersectionObserver' in window && !rm){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          var sibs=Array.prototype.slice.call(e.target.parentNode.children).filter(function(n){return n.classList.contains('reveal');});
+          var i=sibs.indexOf(e.target);
+          setTimeout(function(){e.target.classList.add('in');},(i>0?i%4:0)*90);
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  }else{
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+  }
+  // Card glow follows cursor
+  if(!rm){document.querySelectorAll('.card').forEach(function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');});});}
+  // Magnetic CTA (pointer devices only)
+  var mag=document.getElementById('magnet');
+  if(mag&&!rm&&window.matchMedia('(pointer:fine)').matches){
+    mag.addEventListener('mousemove',function(e){var r=mag.getBoundingClientRect();var x=e.clientX-r.left-r.width/2;var y=e.clientY-r.top-r.height/2;mag.style.transform='translate('+x*.25+'px,'+y*.35+'px)';});
+    mag.addEventListener('mouseleave',function(){mag.style.transform='';});
+  }
+  // Animated number counters
+  function animateCount(el,target,fmt){var dur=1100,t0=null;function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var val=Math.floor((1-Math.pow(1-p,3))*target);el.textContent=fmt?val.toLocaleString('ru-RU'):val;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+  // texts processed base value
+  var base=14820,start=new Date('2026-01-01').getTime();var days=Math.floor((Date.now()-start)/864e5);var total=base+days*143+Math.floor((Date.now()/3.6e6)%24)*3;
+  var counted=false;var heroStats=document.querySelector('.stats');
+  function runCounters(){if(counted)return;counted=true;document.querySelectorAll('[data-count]').forEach(function(el){animateCount(el,parseInt(el.getAttribute('data-count'),10),false);});var c=document.getElementById('cnt');if(c)animateCount(c,total,true);}
+  if('IntersectionObserver' in window && !rm && heroStats){var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){runCounters();io2.disconnect();}});},{threshold:.4});io2.observe(heroStats);}
+  else{var c=document.getElementById('cnt');if(c)c.textContent=total.toLocaleString('ru-RU');document.querySelectorAll('[data-count]').forEach(function(el){el.textContent=el.getAttribute('data-count');});}
+})();
 </script>
 </body>
 </html>
