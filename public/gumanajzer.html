@@ -12,6 +12,7 @@
 <meta property="og:url" content="https://majourci.online/gumanajzer">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/study.css">
+<script src="/util.js"></script>
 <style>
 .cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
 .cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
@@ -19,6 +20,21 @@
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
 .hint{font-size:13px;color:var(--text3);margin-top:8px}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
+.how{margin-top:54px}
+.how h2{font-family:'Syne',sans-serif;font-size:22px;margin-bottom:16px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:30px}
+.step{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:18px}
+.step .n{width:28px;height:28px;border-radius:99px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-bottom:10px}
+.step b{display:block;margin-bottom:4px;font-size:15px}
+.step span{font-size:13.5px;color:var(--text2);line-height:1.6}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ba .box{border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:16px 18px;background:rgba(255,255,255,.02)}
+.ba .tag{font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px}
+.ba .before .tag{color:#e06a6a}
+.ba .after .tag{color:var(--accent3,#1fd49a)}
+.ba p{margin:0;font-size:14px;line-height:1.65;color:var(--text2)}
+@media(max-width:640px){.steps{grid-template-columns:1fr}.ba{grid-template-columns:1fr}}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -51,15 +67,31 @@
   <label>Образец вашего стиля (необязательно)</label>
   <textarea id="sample" style="min-height:80px" placeholder="Вставь кусок своего текста — ИИ подстроится под твою манеру письма"></textarea>
   <p class="hint">Если оставить пустым — просто сделает текст живым и естественным.</p>
+  <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
   <button class="btn" id="go" onclick="run()">Очеловечить</button>
   <div class="err" id="err"></div>
   <div class="result" id="result"></div>
   <div class="result-actions" id="actions" style="display:none">
     <button class="mini" onclick="copyRes()">Копировать</button>
-    <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
+    <button class="mini" onclick="dl('txt')">.txt</button>
+    <button class="mini" onclick="dl('doc')">Word</button>
+    <button class="mini" onclick="dl('pdf')">PDF</button>
     <button class="mini" onclick="reuse()">Прогнать ещё раз</button>
   </div>
+
+  <section class="how">
+    <h2>Как это работает</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><b>Вставь текст</b><span>Любой фрагмент от ИИ или сухой канцелярский текст, который нужно оживить.</span></div>
+      <div class="step"><div class="n">2</div><b>Два прохода ИИ</b><span>Первый проход меняет структуру и ритм, второй — вычищает штампы и канцелярит.</span></div>
+      <div class="step"><div class="n">3</div><b>Забирай результат</b><span>Копируй или скачивай в .txt, Word или PDF. Проверь и доработай под себя.</span></div>
+    </div>
+    <div class="ba">
+      <div class="box before"><div class="tag">До</div><p>Данная работа посвящена рассмотрению актуальных аспектов данной проблематики. Следует отметить, что данный вопрос является крайне важным в современных условиях.</p></div>
+      <div class="box after"><div class="tag">После</div><p>Разберём, почему эта тема сейчас важна как никогда. Вопрос не просто актуален — он напрямую касается того, с чем мы сталкиваемся каждый день.</p></div>
+    </div>
+  </section>
 
   <section class="faq-sec">
   <h2>Частые вопросы</h2>
@@ -105,25 +137,35 @@ document.querySelectorAll('.select').forEach(sel=>{
 });
 document.addEventListener('click',()=>document.querySelectorAll('.select').forEach(s=>s.classList.remove('open')));
 
+let curText='';
+function dl(kind){if(!curText)return;if(kind==='txt')Textify.downloadTxt(curText,'humanized');else if(kind==='doc')Textify.downloadDoc(curText,'humanized');else if(kind==='pdf')Textify.downloadPdf(curText,'humanized');}
+
 async function run(){
   const userText=document.getElementById('text').value.trim();
   const sampleText=document.getElementById('sample').value.trim();
   const mode=document.querySelector('.select[data-name="mode"]').dataset.value;
+  const hp=document.getElementById('hp').value;
   const err=document.getElementById('err'),res=document.getElementById('result'),btn=document.getElementById('go'),act=document.getElementById('actions');
   err.textContent='';
   if(!userText){err.textContent='Вставь текст';return;}
   btn.disabled=true;btn.innerHTML='<span class="spin"></span>Очеловечиваю...';res.classList.remove('show');act.style.display='none';
   try{
-    const r=await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toolType:'humanize',userText,sampleText,options:{mode}})});
+    const r=await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toolType:'humanize',userText,sampleText,options:{mode},hp})});
     const d=await r.json();
     if(!r.ok)throw new Error(d.error||'Ошибка');
-    res.textContent=d.result||'Пустой результат';res.classList.add('show');act.style.display='flex';
+    curText=d.result||'Пустой результат';res.textContent=curText;res.classList.add('show');act.style.display='flex';
+    if(window.Textify)Textify.saveResult('gumanajzer',curText);
   }catch(e){err.textContent=e.message;}
   btn.disabled=false;btn.textContent='Очеловечить';
 }
-function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
-function downloadTxt(){const t=document.getElementById('result').textContent;const b=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tekst.txt';a.click();}
-function reuse(){document.getElementById('text').value=document.getElementById('result').textContent;window.scrollTo({top:0,behavior:'smooth'});}
+function copyRes(){navigator.clipboard.writeText(curText||document.getElementById('result').textContent);}
+function reuse(){document.getElementById('text').value=curText||document.getElementById('result').textContent;window.scrollTo({top:0,behavior:'smooth'});}
+
+if(window.Textify){
+  Textify.autosave('gumanajzer',['text','sample']);
+  const saved=Textify.loadResult('gumanajzer');
+  if(saved&&saved.t){curText=saved.t;const res=document.getElementById('result');res.textContent=curText;res.classList.add('show');document.getElementById('actions').style.display='flex';}
+}
 </script>
 </body>
 </html>
