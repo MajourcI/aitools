@@ -30,6 +30,7 @@ module.exports = function (app, callGroqChat) {
       const type = String((req.body && req.body.type) || 'referat');
       const length = String((req.body && req.body.length) || 'medium');
       const extra = String((req.body && req.body.extra) || '').trim();
+      const gost = !!(req.body && req.body.gost);
       if (!topic) return res.status(400).json({ error: 'Введите тему' });
       const typeMap = {
         referat: 'реферат: с введением, основной частью из нескольких разделов с подзаголовками и заключением',
@@ -40,11 +41,14 @@ module.exports = function (app, callGroqChat) {
       const lengthMap = { short: 'примерно 250-400 слов', medium: 'примерно 500-800 слов', long: 'примерно 1000-1500 слов' };
       const structure = typeMap[type] || typeMap.referat;
       const size = lengthMap[length] || lengthMap.medium;
+      const gostNote = gost
+        ? ' Оформи работу строго по ГОСТ. Начни с блока титульного листа в квадратных скобках [Учебное заведение; Тема работы; Выполнил(а): ___; Проверил(а): ___; Город, год]. Затем раздел СОДЕРЖАНИЕ с перечнем разделов. Структура: ВВЕДЕНИЕ (актуальность, цель, задачи), пронумерованные разделы основной части (1, 1.1, 1.2, 2 …), ЗАКЛЮЧЕНИЕ (выводы по задачам) и СПИСОК ЛИТЕРАТУРЫ из 5–8 источников, оформленных по ГОСТ Р 7.0.5–2008 (Фамилия И.О. Название. — Город: Издательство, год. — N с.). Заголовки разделов пиши заглавными буквами на отдельной строке.'
+        : '';
       const messages = [
         { role: 'system', content: 'Ты помогаешь студентам писать учебные работы на русском языке. Пиши грамотно и по структуре, академическим, но живым языком. Не используй символы markdown (**, #, * и т.п.) — заголовки пиши обычным текстом на отдельной строке.' },
-        { role: 'user', content: 'Напиши ' + structure + ' на тему: «' + topic + '». Объём: ' + size + '.' + (extra ? ' Дополнительные пожелания: ' + extra : '') }
+        { role: 'user', content: 'Напиши ' + structure + ' на тему: «' + topic + '». Объём: ' + size + '.' + (extra ? ' Дополнительные пожелания: ' + extra : '') + gostNote }
       ];
-      const result = await callGroqChat(messages, 0.7, 3500);
+      const result = await callGroqChat(messages, 0.7, gost ? 4000 : 3500);
       res.json({ result: String(result || '').trim() });
     } catch (e) { console.error('generate error', e); res.status(500).json({ error: 'Ошибка сервера, попробуйте ещё раз' }); }
   });
