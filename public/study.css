@@ -135,4 +135,11 @@ textarea:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(-
 .cta-box b{display:block;color:var(--text);margin-bottom:4px}
 .cta-box a{font-weight:700}
 
+/* ---- Cross-links footer (shared by tool, blog & about pages) ---- */
+.cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
+.cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
+.cross-links{display:flex;flex-wrap:wrap;gap:10px}
+.cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:var(--radius-pill);transition:.2s var(--ease)}
+.cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
