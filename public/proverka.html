@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проверка текста на признаки ИИ · Textify AI</title>
+<meta name="description" content="Бесплатная проверка текста на признаки ИИ на русском: показывает шаблоны, канцелярит и однообразные предложения. Без регистрации.">
+<link rel="canonical" href="https://majourci.online/proverka">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="Проверка текста на признаки ИИ · Textify AI">
+<meta property="og:description" content="Покажет, насколько текст похож на написанный нейросетью. Бесплатно.">
+<meta property="og:url" content="https://majourci.online/proverka">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/study.css">
+<style>
+.cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
+.cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
+.cross-links{display:flex;flex-wrap:wrap;gap:10px}
+.cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
+.cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+.hint{font-size:13px;color:var(--text3);margin-top:8px}
+.score-wrap{display:none;margin-top:22px;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:24px}
+.score-wrap.show{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.score-top{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.gauge{--p:0;width:108px;height:108px;border-radius:50%;flex:none;background:conic-gradient(var(--gc) calc(var(--p)*1%),var(--card-border) 0);display:flex;align-items:center;justify-content:center;position:relative}
+.gauge::before{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--card)}
+.gauge b{position:relative;font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.score-verdict b{font-family:'Syne',sans-serif;font-size:20px;display:block;margin-bottom:4px}
+.score-verdict span{color:var(--text2);font-size:14.5px;line-height:1.6}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:22px}
+.metric{background:rgba(255,255,255,.02);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px}
+.metric .mt{font-size:13px;color:var(--text3);margin-bottom:6px}
+.metric .mbar{height:7px;border-radius:99px;background:var(--card-border);overflow:hidden;margin-bottom:6px}
+.metric .mbar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
+.metric .mv{font-size:13px;color:var(--text2)}
+.flags{margin-top:20px}
+.flags b{font-size:14px;display:block;margin-bottom:10px}
+.flag{display:inline-block;font-size:13px;color:var(--text);background:rgba(224,106,106,.12);border:1px solid rgba(224,106,106,.35);padding:5px 11px;border-radius:99px;margin:0 7px 7px 0}
+.flag.ok{background:rgba(31,212,154,.12);border-color:rgba(31,212,154,.35)}
+.disc{font-size:12.5px;color:var(--text3);margin-top:16px;line-height:1.6}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Как работает проверка на ИИ?","acceptedAnswer":{"@type":"Answer","text":"Проверка анализирует текст прямо в браузере: однообразность длины предложений, количество канцелярских штампов и повторяющиеся начала фраз. На основе этого показывает оценку похожести на ИИ."}},
+{"@type":"Question","name":"Это точный детектор ИИ?","acceptedAnswer":{"@type":"Answer","text":"Нет. Это эвристическая оценка, которая помогает увидеть слабые места текста. Ни один детектор в мире не даёт 100% точности."}},
+{"@type":"Question","name":"Текст куда-то отправляется?","acceptedAnswer":{"@type":"Answer","text":"Нет, весь анализ происходит локально в вашем браузере — текст не покидает устройство."}}
+]}
+</script></head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a class="brand" href="/">Textify AI</a><a class="back" href="/">← На главную</a></div>
+  <h1>Проверка на признаки ИИ</h1>
+  <p class="sub">Показывает, насколько текст похож на написанный нейросетью, и что именно выдаёт. Работает локально · Бесплатно</p>
+
+  <label>Текст</label>
+  <textarea id="text" placeholder="Вставь текст для проверки..."></textarea>
+  <p class="hint">Нужно минимум пару предложений, чтобы оценка была осмысленной.</p>
+  <button class="btn" id="go" onclick="check()">Проверить</button>
+  <div class="err" id="err"></div>
+
+  <div class="score-wrap" id="out">
+    <div class="score-top">
+      <div class="gauge" id="gauge"><b id="gnum">0%</b></div>
+      <div class="score-verdict"><b id="verdict"></b><span id="vdesc"></span></div>
+    </div>
+    <div class="metrics" id="metrics"></div>
+    <div class="flags" id="flags"></div>
+    <p class="disc">Это эвристическая оценка по косвенным признакам, а не точный детектор. Используй её как подсказку, что улучшить, а не как окончательный вердикт.</p>
+  </div>
+
+  <section class="faq-sec">
+  <h2>Частые вопросы</h2>
+  <details><summary>Как работает проверка?</summary><p>Анализирует однообразность длины предложений, частоту канцелярских штампов и повторы начал предложений. Всё считается локально в браузере.</p></details>
+  <details><summary>Это точный детектор?</summary><p>Нет. Это эвристика, которая помогает увидеть слабые места. Гарантий не даёт ни один сервис.</p></details>
+  <details><summary>Мой текст куда-то отправляется?</summary><p>Нет. Анализ полностью локальный — текст не покидает устройство.</p></details>
+  <details><summary>Что делать, если оценка высокая?</summary><p>Прогони текст через гуманайзер, разбей длинные однотипные предложения и убери канцелярит.</p></details>
+</section>
+<style>
+.faq-sec{margin-top:48px}
+.faq-sec h2{font-family:'Syne',sans-serif;font-size:22px;margin-bottom:14px}
+.faq-sec details{border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;background:rgba(255,255,255,.02)}
+.faq-sec summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:"+";color:var(--accent);font-size:20px;font-weight:400}
+.faq-sec details[open] summary::after{content:"−"}
+.faq-sec details[open] summary{margin-bottom:8px}
+.faq-sec p{color:var(--text2);line-height:1.7;margin:0}
+</style><footer class="cross">
+    <div class="cross-title">Другие инструменты</div>
+    <div class="cross-links">
+      <a href="/gumanajzer">Гуманайзер текста</a>
+      <a href="/restyle">Рерайт под стиль</a>
+      <a href="/sokrat">Сократить текст</a>
+      <a href="/generator">Генератор текста</a>
+      <a href="/vopros">Вопросы по тексту</a>
+      <a href="/chat">Чат с ИИ</a>
+    </div>
+  </footer>
+</div>
+<script>
+var CLICHE=['в современном мире','в современном обществе','играет важную роль','играет ключевую роль','следует отметить','стоит отметить','необходимо отметить','таким образом','в заключение можно сказать','подводя итог','нельзя не отметить','важно понимать','является неотъемлемой частью','в целом можно сказать','крайне важн','одним из ключевых аспектов','в настоящее время','не секрет, что','рассмотрим подробнее','открывает новые возможности','в данной статье','в данной работе','широкий спектр','неотъемлемой частью нашей жизни'];
+
+function clamp(v){return Math.max(0,Math.min(100,v));}
+
+function analyze(text){
+  var t=text.replace(/\s+/g,' ').trim();
+  var sentences=t.split(/(?<=[.!?…])\s+/).filter(function(s){return s.replace(/[^\p{L}]/gu,'').length>0;});
+  var words=t.split(/\s+/).filter(Boolean);
+  var low=t.toLowerCase();
+
+  // 1. Однообразность длины предложений (низкая вариативность → похоже на ИИ)
+  var lens=sentences.map(function(s){return s.split(/\s+/).filter(Boolean).length;});
+  var mean=lens.reduce(function(a,b){return a+b;},0)/(lens.length||1);
+  var variance=lens.reduce(function(a,b){return a+Math.pow(b-mean,2);},0)/(lens.length||1);
+  var cv=mean>0?Math.sqrt(variance)/mean:0; // коэффициент вариации
+  var uniformScore=clamp((1-Math.min(cv/0.6,1))*100); // cv<0.6 → однообразно
+
+  // 2. Канцелярские штампы
+  var foundCliche=[];
+  CLICHE.forEach(function(c){if(low.indexOf(c)>=0)foundCliche.push(c);});
+  var clichePer100=(foundCliche.length/(words.length||1))*100;
+  var clicheScore=clamp(foundCliche.length*16+clichePer100*30);
+
+  // 3. Повторяющиеся начала предложений
+  var starts={};
+  sentences.forEach(function(s){var w=s.trim().split(/\s+/)[0];if(w){w=w.toLowerCase().replace(/[^\p{L}]/gu,'');if(w)starts[w]=(starts[w]||0)+1;}});
+  var maxRep=0;Object.keys(starts).forEach(function(k){if(starts[k]>maxRep)maxRep=starts[k];});
+  var repScore=clamp((maxRep>1?(maxRep-1):0)/Math.max(sentences.length-1,1)*100*1.4);
+
+  // 4. Длинные «гладкие» предложения (>28 слов) — типично для ИИ
+  var longShare=lens.filter(function(l){return l>28;}).length/(lens.length||1);
+  var longScore=clamp(longShare*140);
+
+  var overall=clamp(uniformScore*0.34+clicheScore*0.34+repScore*0.16+longScore*0.16);
+  return {overall:Math.round(overall),uniform:Math.round(uniformScore),cliche:Math.round(clicheScore),rep:Math.round(repScore),long:Math.round(longScore),foundCliche:foundCliche,sentences:sentences.length,avgLen:Math.round(mean)};
+}
+
+function check(){
+  var text=document.getElementById('text').value.trim();
+  var err=document.getElementById('err'),out=document.getElementById('out');
+  err.textContent='';
+  if(text.split(/\s+/).filter(Boolean).length<12){err.textContent='Слишком мало текста — вставь хотя бы несколько предложений.';return;}
+  var r=analyze(text);
+  var gc=r.overall>=66?'#e06a6a':(r.overall>=36?'#f0b84a':'#1fd49a');
+  var g=document.getElementById('gauge');g.style.setProperty('--p',r.overall);g.style.setProperty('--gc',gc);
+  document.getElementById('gnum').textContent=r.overall+'%';
+  var verdict,desc;
+  if(r.overall>=66){verdict='Похоже на ИИ';desc='Много косвенных признаков машинного текста. Стоит переписать живее.';}
+  else if(r.overall>=36){verdict='Спорно';desc='Есть отдельные признаки. Немного доработки и будет естественно.';}
+  else{verdict='Скорее человек';desc='Текст выглядит живым и разнообразным.';}
+  document.getElementById('verdict').textContent=verdict;
+  document.getElementById('vdesc').textContent=desc;
+  var metrics=[['Однообразность предложений',r.uniform,'ср. длина '+r.avgLen+' слов'],['Канцелярские штампы',r.cliche,r.foundCliche.length+' шт.'],['Повторы начал',r.rep,''],['Длинные предложения',r.long,'']];
+  document.getElementById('metrics').innerHTML=metrics.map(function(m){return '<div class="metric"><div class="mt">'+m[0]+'</div><div class="mbar"><i style="width:'+m[1]+'%"></i></div><div class="mv">'+m[1]+'%'+(m[2]?' · '+m[2]:'')+'</div></div>';}).join('');
+  var flags=document.getElementById('flags');
+  if(r.foundCliche.length){flags.innerHTML='<b>Найденные штампы:</b>'+r.foundCliche.map(function(c){return '<span class="flag">'+c+'</span>';}).join('');}
+  else{flags.innerHTML='<b>Штампы:</b><span class="flag ok">канцелярских штампов не найдено</span>';}
+  out.classList.add('show');
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
+</body>
+</html>
