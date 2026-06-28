@@ -12,18 +12,25 @@
 <meta property="og:url" content="https://majourci.online/generator">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/study.css">
+<script src="/util.js"></script>
 <style>
 .cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
 .cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
 .cross-links{display:flex;flex-wrap:wrap;gap:10px}
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+.gost{display:flex;align-items:center;gap:10px;margin:16px 0 4px;padding:13px 15px;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-sm);cursor:pointer;transition:.2s}
+.gost:hover{border-color:var(--accent)}
+.gost input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.gost .g-txt{font-size:14px;color:var(--text)}
+.gost .g-sub{font-size:12.5px;color:var(--text3);margin-top:2px}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Что умеет генератор текста?","acceptedAnswer":{"@type":"Answer","text":"Создаёт готовые черновики рефератов, эссе, докладов и конспектов по заданной теме за пару секунд."}},
 {"@type":"Question","name":"Можно ли сдавать сгенерированный текст как есть?","acceptedAnswer":{"@type":"Answer","text":"Лучше использовать его как черновик и основу: проверяй факты, добавляй свои мысли и дорабатывай. Чистый текст от ИИ преподаватели и системы антиплагиата могут распознать."}},
-{"@type":"Question","name":"Какие форматы и объём доступны?","acceptedAnswer":{"@type":"Answer","text":"Реферат, эссе, доклад и конспект, на выбор короткий, средний или длинный объём."}},
+{"@type":"Question","name":"Какие форматы и объём доступны?","acceptedAnswer":{"@type":"Answer","text":"Реферат, эссе, доклад и конспект, на выбор короткий, средний или длинный объём. Есть режим оформления по ГОСТ."}},
 {"@type":"Question","name":"Генератор бесплатный?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатно и без регистрации."}}
 ]}
 </script></head>
@@ -57,21 +64,28 @@
       </div>
     </div>
   </div>
+  <label class="gost" for="gost">
+    <input type="checkbox" id="gost">
+    <span><span class="g-txt">Оформить по ГОСТ</span><span class="g-sub">Титульный лист, содержание, введение/заключение, список литературы</span></span>
+  </label>
   <label>Пожелания (необязательно)</label>
   <textarea id="extra" style="min-height:70px" placeholder="Например: упор на практику, простым языком, добавить примеры..."></textarea>
+  <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
   <button class="btn" id="go" onclick="gen()">Сгенерировать</button>
   <div class="err" id="err"></div>
   <div class="result" id="result"></div>
   <div class="result-actions" id="actions" style="display:none">
     <button class="mini" onclick="copyRes()">Копировать</button>
-    <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
+    <button class="mini" onclick="dl('txt')">.txt</button>
+    <button class="mini" onclick="dl('doc')">Word</button>
+    <button class="mini" onclick="dl('pdf')">PDF</button>
   </div>
 
   <section class="faq-sec">
   <h2>Частые вопросы</h2>
   <details><summary>Что умеет генератор текста?</summary><p>Создаёт готовые черновики рефератов, эссе, докладов и конспектов по заданной теме за пару секунд.</p></details>
   <details><summary>Можно ли сдавать текст как есть?</summary><p>Лучше использовать как черновик и основу: проверяй факты, добавляй свои мысли и дорабатывай. Чистый текст от ИИ могут распознать преподаватели и антиплагиат.</p></details>
-  <details><summary>Какие форматы и объём доступны?</summary><p>Реферат, эссе, доклад и конспект, на выбор короткий, средний или длинный объём.</p></details>
+  <details><summary>Какие форматы и объём доступны?</summary><p>Реферат, эссе, доклад и конспект, на выбор короткий, средний или длинный объём. Есть режим оформления по ГОСТ и экспорт в Word или PDF.</p></details>
   <details><summary>Это бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
 </section><footer class="cross">
     <div class="cross-title">Другие инструменты</div>
@@ -100,25 +114,38 @@ document.querySelectorAll('.select').forEach(sel=>{
 });
 document.addEventListener('click',()=>document.querySelectorAll('.select').forEach(s=>s.classList.remove('open')));
 
+let curText='';
+function fname(){const t=(document.getElementById('topic').value.trim()||'tekst');return t.slice(0,40);}
+function dl(kind){if(!curText)return;const n=fname();if(kind==='txt')Textify.downloadTxt(curText,n);else if(kind==='doc')Textify.downloadDoc(curText,n);else if(kind==='pdf')Textify.downloadPdf(curText,n);}
+
 async function gen(){
   const topic=document.getElementById('topic').value.trim();
   const type=document.querySelector('.select[data-name="type"]').dataset.value;
   const length=document.querySelector('.select[data-name="length"]').dataset.value;
   const extra=document.getElementById('extra').value.trim();
+  const gost=document.getElementById('gost').checked;
+  const hp=document.getElementById('hp').value;
   const err=document.getElementById('err'),res=document.getElementById('result'),btn=document.getElementById('go'),act=document.getElementById('actions');
   err.textContent='';
   if(!topic){err.textContent='Введи тему';return;}
   btn.disabled=true;btn.innerHTML='<span class="spin"></span>Пишу...';res.classList.remove('show');act.style.display='none';
   try{
-    const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic,type,length,extra})});
+    const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic,type,length,extra,gost,hp})});
     const d=await r.json();
     if(!r.ok)throw new Error(d.error||'Ошибка');
-    res.textContent=d.result||'Пустой результат';res.classList.add('show');act.style.display='flex';
+    curText=d.result||'Пустой результат';res.textContent=curText;res.classList.add('show');act.style.display='flex';
+    if(window.Textify)Textify.saveResult('generator',curText);
   }catch(e){err.textContent=e.message;}
   btn.disabled=false;btn.textContent='Сгенерировать';
 }
-function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
-function downloadTxt(){const t=document.getElementById('result').textContent;const b=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tekst.txt';a.click();}
+function copyRes(){navigator.clipboard.writeText(curText||document.getElementById('result').textContent);}
+
+// Автосохранение полей и восстановление последнего результата
+if(window.Textify){
+  Textify.autosave('generator',['topic','extra']);
+  const saved=Textify.loadResult('generator');
+  if(saved&&saved.t){curText=saved.t;const res=document.getElementById('result');res.textContent=curText;res.classList.add('show');document.getElementById('actions').style.display='flex';}
+}
 </script>
 </body>
 </html>
