@@ -20,12 +20,14 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/study.css">
 <script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script src="/util.js"></script>
 <style>
 .cross{margin-top:60px;padding-top:26px;border-top:1px solid var(--card-border)}
 .cross-title{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin-bottom:14px}
 .cross-links{display:flex;flex-wrap:wrap;gap:10px}
 .cross-links a{font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--card-border);padding:8px 15px;border-radius:99px;transition:.2s}
 .cross-links a:hover{color:var(--text);border-color:var(--accent);transform:translateY(-1px)}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -56,13 +58,16 @@
       </div>
     </div>
   </div>
+  <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
   <button class="btn" id="go" onclick="run()">Сократить</button>
   <div class="err" id="err"></div>
   <div class="result" id="result"></div>
   <div class="result-actions" id="actions" style="display:none">
     <button class="mini" onclick="copyRes()">Копировать</button>
-    <button class="mini" onclick="downloadTxt()">Скачать .txt</button>
+    <button class="mini" onclick="dl('txt')">.txt</button>
+    <button class="mini" onclick="dl('doc')">Word</button>
+    <button class="mini" onclick="dl('pdf')">PDF</button>
     <button class="mini" onclick="reuse()">Сократить ещё раз</button>
   </div>
 
@@ -99,24 +104,28 @@ document.querySelectorAll('.select').forEach(sel=>{
 });
 document.addEventListener('click',()=>document.querySelectorAll('.select').forEach(s=>s.classList.remove('open')));
 
+let curText='';
+function dl(kind){if(!curText)return;if(kind==='txt')Textify.downloadTxt(curText,'sokrat');else if(kind==='doc')Textify.downloadDoc(curText,'sokrat');else if(kind==='pdf')Textify.downloadPdf(curText,'sokrat');}
 async function run(){
   const userText=document.getElementById('text').value.trim();
   const percent=parseInt(document.querySelector('.select[data-name="percent"]').dataset.value,10);
+  const hp=document.getElementById('hp').value;
   const err=document.getElementById('err'),res=document.getElementById('result'),btn=document.getElementById('go'),act=document.getElementById('actions');
   err.textContent='';
   if(!userText){err.textContent='Вставь текст';return;}
   btn.disabled=true;btn.innerHTML='<span class="spin"></span>Сокращаю...';res.classList.remove('show');act.style.display='none';
   try{
-    const r=await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toolType:'shorten',userText,options:{percent}})});
+    const r=await fetch('/api/tool',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toolType:'shorten',userText,options:{percent},hp})});
     const d=await r.json();
     if(!r.ok)throw new Error(d.error||'Ошибка');
-    res.textContent=d.result||'Пустой результат';res.classList.add('show');act.style.display='flex';
+    curText=d.result||'Пустой результат';res.textContent=curText;res.classList.add('show');act.style.display='flex';
+    if(window.Textify)Textify.saveResult('sokrat',curText);
   }catch(e){err.textContent=e.message;}
   btn.disabled=false;btn.textContent='Сократить';
 }
-function copyRes(){navigator.clipboard.writeText(document.getElementById('result').textContent);}
-function downloadTxt(){const t=document.getElementById('result').textContent;const b=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tekst.txt';a.click();}
-function reuse(){document.getElementById('text').value=document.getElementById('result').textContent;window.scrollTo({top:0,behavior:'smooth'});}
+function copyRes(){navigator.clipboard.writeText(curText||document.getElementById('result').textContent);}
+function reuse(){document.getElementById('text').value=curText||document.getElementById('result').textContent;window.scrollTo({top:0,behavior:'smooth'});}
+if(window.Textify){Textify.autosave('sokrat',['text']);const saved=Textify.loadResult('sokrat');if(saved&&saved.t){curText=saved.t;const res=document.getElementById('result');res.textContent=curText;res.classList.add('show');document.getElementById('actions').style.display='flex';}}
 </script>
 </body>
 </html>
